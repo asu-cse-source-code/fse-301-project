@@ -1,26 +1,22 @@
 <template>
   <div>
-    <h1>Welcome to Meteor!</h1>
-    <hello/>
-    <info/>
+    <home />
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello.vue'
-import Info from './components/Info.vue'
+import Home from "./views/Home.vue";
 
 export default {
   components: {
-    Hello,
-    Info,
+    Home,
   },
-}
+};
 </script>
 
 <style>
-  body {
-    font-family: sans-serif;
-    padding: 10px;
-  }
+body {
+  font-family: sans-serif;
+  padding: 10px;
+}
 </style>
