@@ -1,0 +1,36 @@
+stages:
+  - name: Build & Publish
+    steps:
+      - publishImageConfig:
+          dockerfilePath: ./Dockerfile
+          buildContext: .
+          tag: planner:v1.0
+        env:
+          PLUGIN_MTU: "1230"
+    when:
+      branch: {}
+      event:
+        include:
+          - push
+          - pull request
+  - name: Deploy
+    steps:
+      - applyYamlConfig:
+          path: ./planner-dc-svc-ingress.yaml
+    when:
+      branch: {}
+      event:
+        include:
+          - push
+          - pull request
+branch:
+  include:
+    - main
+notification:
+  recipients:
+    - recipient: "abspencer2097@gmail.com"
+      notifier: "guldentech-email"
+  # Select which statuses you want the notification to be sent
+  condition: ["Failed"]
+  # Ability to override the default message (Optional)
+  # message: "my-message"

@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planner
+  namespace: fse-planner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: planner
+  template:
+    metadata:
+      labels:
+        app: planner
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+      containers:
+        - name: planner
+          image: ${CICD_IMAGE}:v1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: CICD_EXECUTION_SEQUENCE
+              value: "${CICD_EXECUTION_SEQUENCE}"
+            - name: ROOT_URL
+              value: "https://planner.austinbspencer.com/"
+            - name: PORT
+              value: "3000"
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_URL
+                  name: planner-secrets
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: planner-secrets
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: planner-secrets
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: planner-service
+  namespace: fse-planner
+spec:
+  type: ClusterIP
+  ports:
+    - name: planner-port
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: planner
+
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: planner-ingress
+  namespace: fse-planner
+spec:
+  rules:
+    - host: planner.austinbspencer.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: planner-service
+              servicePort: planner-port
