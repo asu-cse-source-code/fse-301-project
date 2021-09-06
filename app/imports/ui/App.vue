@@ -1,7 +1,7 @@
 <template>
   <div class="fluid-container">
     <div id="nav">
-      <nav />
+      <nav-bar />
     </div>
     <div id="app" style="min-height: 60vh">
       <router-view></router-view>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import Nav from "./components/Nav.vue";
+import NavBar from "./components/Nav.vue";
 
 export default {
   components: {
-    Nav,
+    NavBar,
   },
 };
 </script>
