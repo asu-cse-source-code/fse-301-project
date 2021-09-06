@@ -1,6 +1,10 @@
 <template>
   <div>
     <h2>Learn Meteor!</h2>
+    <b-card>
+      <b-table striped hover bordered :items="links" :fields="fields">
+      </b-table>
+    </b-card>
     <ul>
       <li>
         <form class="info-link-add">
@@ -41,6 +45,7 @@ export default {
     return {
       title: "",
       url: "",
+      fields: ["title", "description", "date"],
     };
   },
   meteor: {
