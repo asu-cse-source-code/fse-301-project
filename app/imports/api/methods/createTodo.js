@@ -37,6 +37,7 @@ Meteor.methods({
       completed: form.completed,
       createdAt: new Date(),
       username: Meteor.users.findOne(this.userId).username,
+      owner: this.userId,
     });
   },
 });

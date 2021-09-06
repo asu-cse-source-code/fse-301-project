@@ -5,7 +5,10 @@
       <add-item class="mb-3" />
     </b-container>
     <b-card>
-      <b-table striped hover bordered :items="todos" :fields="fields" />
+      <div v-if="todos && todos.length > 0">
+        <b-table striped hover bordered :items="todos" :fields="fields" />
+      </div>
+      <div v-else>You have no incomplete tasks :)</div>
     </b-card>
   </div>
 </template>
@@ -20,7 +23,7 @@ export default {
   },
   data() {
     return {
-      fields: ["title", "description", "date"],
+      fields: ["title", "description", "dueDate"],
     };
   },
   meteor: {
@@ -30,8 +33,15 @@ export default {
     todos() {
       return Todos.find({});
     },
+    currentUser() {
+      return Meteor.user();
+    },
   },
-  methods: {},
+  methods: {
+    getUsername() {
+      return this.currentUser?.username;
+    },
+  },
 };
 </script>
 

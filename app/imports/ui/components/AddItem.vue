@@ -146,12 +146,13 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       const self = this;
-      Meteor.call("createTodo", self.form, (error) => {
+      Meteor.call("createTodo", self.form, (error, res) => {
         if (error) {
           alert(error.error);
         } else {
           self.resetForm();
           self.visible = false;
+          console.log(res);
         }
       });
     },
