@@ -7,16 +7,6 @@
       crossorigin="anonymous"
     />
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
-      <!-- <b-navbar-brand>
-        <b-row>
-          <b-col cols="4" id="brand" v-b-tooltip.hover title="GitHub">
-            <a href="https://github.com/austinbspencer"
-              ><i class="fab fa-github"></i>&emsp;</a
-            >
-            <span>&emsp;</span>
-          </b-col>
-        </b-row>
-      </b-navbar-brand> -->
       <b-navbar-brand
         id="brand"
         href="https://www.linkedin.com/in/austin-spencer-b56a25177/"
@@ -36,10 +26,16 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item to="/" right>Home</b-nav-item>
-          <b-nav-item to="/projects" right>Projects</b-nav-item>
-          <b-nav-item to="/about" right>About</b-nav-item>
-          <!-- <b-nav-item to="/todo">Todo</b-nav-item> -->
+          <b-nav-item v-if="$route.name === 'Home'" class="active" right
+            >Home</b-nav-item
+          >
+          <b-nav-item v-if="$route.name !== 'Home'" to="/" right
+            >Home</b-nav-item
+          >
+          <span v-if="$route.name === 'About'" class="active" right>About</span>
+          <b-nav-item v-if="$route.name !== 'About'" to="/about" right
+            >About</b-nav-item
+          >
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -48,17 +44,11 @@
 
 <script></script>
 
-<style scoped>
-#brand a {
-  color: #8e9195;
+<style>
+.active {
+  color: white;
 }
-#brand a:hover {
-  color: #c0c3c7;
-}
-#mail-icon a {
-  color: #918816;
-}
-#mail-icon a:hover {
-  color: #beb320;
+.active:hover {
+  cursor: not-allowed !important;
 }
 </style>
