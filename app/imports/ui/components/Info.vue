@@ -1,22 +1,10 @@
 <template>
   <div>
-    <h2>Learn Meteor!</h2>
+    <h2 class="mt-4 mb-4">Learn Meteor!</h2>
+    <b-container>
+      <add-item class="mb-3" />
+    </b-container>
     <b-card>
-      <b-row align-h="end" class="mb-2">
-        <b-col cols="8"></b-col>
-        <b-col cols="4">
-          <b-button block v-b-toggle.collapse-1 variant="primary"
-            >Add New Task</b-button
-          >
-        </b-col>
-      </b-row>
-      <b-row class="mb-2" align-h="end">
-        <b-col>
-          <b-collapse id="collapse-1" class="mt-2">
-            <add-item></add-item>
-          </b-collapse>
-        </b-col>
-      </b-row>
       <b-table striped hover bordered :items="todos" :fields="fields" />
     </b-card>
   </div>

@@ -26,29 +26,79 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item v-if="$route.name === 'Home'" class="active" right
-            >Home</b-nav-item
-          >
-          <b-nav-item v-if="$route.name !== 'Home'" to="/" right
-            >Home</b-nav-item
-          >
-          <span v-if="$route.name === 'About'" class="active" right>About</span>
-          <b-nav-item v-if="$route.name !== 'About'" to="/about" right
-            >About</b-nav-item
-          >
+          <div v-for="(link, i) in links" :key="i">
+            <b-nav-item right
+              ><router-link :to="link.url" custom v-slot="{ navigate }">
+                <span
+                  class="active-link"
+                  v-if="$route.name === link.routeName"
+                  >{{ link.title }}</span
+                >
+                <span
+                  v-else
+                  @click="navigate"
+                  @keypress.enter="navigate"
+                  role="link"
+                  >{{ link.title }}</span
+                >
+              </router-link></b-nav-item
+            >
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
 
-<script></script>
+<script>
+import { Meteor } from "meteor/meteor";
+
+export default {
+  name: "Nav",
+  components: {},
+
+  directives: {},
+
+  data() {
+    return {
+      links: [
+        { title: "Home", url: "/", routeName: "Home" },
+        { title: "About", url: "/about", routeName: "About" },
+        { title: "Calendar", url: "/calendar", routeName: "Calendar" },
+        { title: "Todo", url: "/full-list/", routeName: "List" },
+        { title: "Login", url: "/login", routeName: "Login" },
+      ],
+    };
+  },
+
+  mounted() {},
+
+  meteor: {
+    currentUser() {
+      return Meteor.user();
+    },
+  },
+
+  methods: {
+    getListUrl() {
+      let url = null;
+      if (this.currentUser) {
+        url = "/full-list/" + this.getUsername();
+      }
+      return url;
+    },
+    getUsername() {
+      return this.currentUser?.username;
+    },
+  },
+};
+</script>
 
 <style>
-.active {
+.active-link {
   color: white;
 }
-.active:hover {
+.active-link:hover {
   cursor: not-allowed !important;
 }
 </style>

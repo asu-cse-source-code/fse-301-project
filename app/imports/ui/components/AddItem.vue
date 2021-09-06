@@ -1,56 +1,122 @@
 <template>
-  <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Enter email"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          placeholder="Enter name"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select
-          id="input-3"
-          v-model="form.food"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-        <b-form-checkbox-group
-          v-model="form.checked"
-          id="checkboxes-4"
-          :aria-describedby="ariaDescribedby"
+  <div class="mb-4">
+    <b-row align-h="end" class="mb-2">
+      <b-col cols="8"></b-col>
+      <b-col cols="4">
+        <b-button
+          block
+          @click="visible = !visible"
+          aria-controls="collapse-1"
+          variant="primary"
+          >Add New Task</b-button
         >
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
+      </b-col>
+    </b-row>
+    <b-row class="mb-2" align-h="end">
+      <b-col>
+        <b-collapse id="collapse-1" v-model="visible" class="mt-2">
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-row>
+              <b-col sm="12" md="6">
+                <b-form-group
+                  id="input-group-1"
+                  label="Title:"
+                  label-for="input-1"
+                  description="Title of this task"
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.title"
+                    type="text"
+                    placeholder="Enter title"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col sm="12" md="6">
+                <b-form-group
+                  id="input-group-2"
+                  label="Description:"
+                  label-for="input-2"
+                >
+                  <b-form-textarea
+                    id="input-notes"
+                    v-model="form.description"
+                    type="text"
+                    :state="
+                      form.description.length >= 1 &&
+                      form.description.length < 200
+                    "
+                    placeholder="Brief description of this task"
+                    required
+                    trim
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+              <b-col sm="12" md="6">
+                <b-form-group
+                  id="input-group-3"
+                  label="Due Date:"
+                  label-for="input-3"
+                  description="Date this task needs completed by"
+                >
+                  <b-form-datepicker
+                    id="input-due-date"
+                    v-model="form.dueDate"
+                    :date-format-options="{
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    }"
+                    :min="new Date()"
+                    locale="en"
+                    dark
+                    required
+                  ></b-form-datepicker>
+                </b-form-group>
+              </b-col>
+              <b-col sm="12" md="6">
+                <b-form-group
+                  id="input-group-5"
+                  label="Priority:"
+                  label-for="input-5"
+                >
+                  <b-form-select
+                    id="input-5"
+                    v-model="form.priority"
+                    :options="priorities"
+                    required
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col sm="12" md="6">
+                <b-form-group id="input-group-4">
+                  <b-form-checkbox
+                    id="checkbox-1"
+                    v-model="form.completed"
+                    name="checkbox-1"
+                    :value="true"
+                    :unchecked-value="false"
+                  >
+                    Already Completed?
+                  </b-form-checkbox>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row align-h="center">
+              <b-button class="mr-2" type="submit" variant="primary"
+                >Submit</b-button
+              >
+              <b-button class="ml-2" type="reset" variant="danger"
+                >Reset</b-button
+              >
+            </b-row>
+          </b-form>
+        </b-collapse>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -58,46 +124,52 @@
 export default {
   data() {
     return {
+      visible: false,
       form: {
-        email: "",
-        name: "",
-        food: null,
-        checked: [],
+        title: "",
+        description: "",
+        url: "",
+        priority: 1,
+        dueDate: null,
+        completed: false,
       },
-      foods: [
-        { text: "Select One", value: null },
-        "Carrots",
-        "Beans",
-        "Tomatoes",
-        "Corn",
+      priorities: [
+        { text: "Basic", value: 1 },
+        { text: "Important", value: 2 },
+        { text: "Urgent", value: 3 },
       ],
       show: true,
+      fields: ["title", "description", "date"],
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      Meteor.call("createLink", this.title, this.url, (error) => {
+      const self = this;
+      Meteor.call("createTodo", self.form, (error) => {
         if (error) {
           alert(error.error);
         } else {
-          this.title = "";
-          this.url = "";
+          self.resetForm();
+          self.visible = false;
         }
       });
     },
     onReset(event) {
       event.preventDefault();
       // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
+      this.resetForm();
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
       });
+    },
+    resetForm() {
+      this.form.title = "";
+      this.form.description = "";
+      this.form.priority = 1;
+      this.form.completed = false;
     },
   },
 };
