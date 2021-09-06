@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <home />
+  <div class="fluid-container">
+    <div id="nav">
+      <nav />
+    </div>
+    <div id="app" style="min-height: 60vh">
+      <router-view></router-view>
+    </div>
+    <!-- <div id="footer">
+      <custom-footer></custom-footer>
+    </div> -->
   </div>
 </template>
 
 <script>
-import Home from "./views/Home.vue";
+import Nav from "./components/Nav.vue";
 
 export default {
   components: {
-    Home,
+    Nav,
   },
 };
 </script>
