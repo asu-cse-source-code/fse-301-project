@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2 class="mt-4 mb-4">Learn Meteor!</h2>
+  <div class="mt-4 mb-4">
+    <!-- <h2 class="mt-4 mb-4">Your Planner</h2> -->
     <b-container>
       <add-item class="mb-3" />
     </b-container>

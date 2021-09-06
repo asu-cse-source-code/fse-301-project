@@ -26,7 +26,7 @@
                   </b-card-body>
                   <template v-slot:footer>
                     <div class="w-100">
-                      <router-link to="/home" custom v-slot="{ navigate }">
+                      <router-link to="/" custom v-slot="{ navigate }">
                         <b-button
                           @click="navigate"
                           @keypress.enter="navigate"

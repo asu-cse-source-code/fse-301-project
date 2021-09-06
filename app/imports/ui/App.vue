@@ -23,8 +23,22 @@ export default {
 </script>
 
 <style>
-body {
+#nav {
+  padding: 30px;
+
+  font-weight: bold;
+}
+.fluid-container {
+  /* background-color: #ebeced; */
   font-family: sans-serif;
-  padding: 10px;
+  /* background-color: #315481; */
+  /* background-image: linear-gradient(to bottom, #3f5d85, #888c92 100%); */
+  /* background-attachment: fixed; */
+}
+.center {
+  text-align: center;
+}
+#dropdowns {
+  margin-top: 2rem;
 }
 </style>
