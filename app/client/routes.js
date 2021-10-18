@@ -18,18 +18,29 @@ const routes = [
     component: () => import("../imports/ui/views/Calendar.vue"),
   },
   {
-    path: "/full-list/",
+    path: "/to-do/",
     name: "List",
-    // props: true,
     component: () => import("../imports/ui/views/List.vue"),
   },
   {
-    path: "/login/",
+    path: "/login/:prop",
     name: "Login",
+    props: true,
     component: () => import("../imports/ui/views/Login.vue"),
   },
-  //   { path: "/404", component: () => import("./views/NotFound.vue") },
-  //   { path: "*", component: () => import("./views/NotFound.vue") },
+  {
+    path: "/user/:id",
+    name: "Profile",
+    props: true,
+    component: () => import("../imports/ui/views/Profile.vue"),
+  },
+  {
+    path: "/info/",
+    name: "Info",
+    component: () => import("../imports/ui/views/Info.vue"),
+  },
+  { path: "/404", component: () => import("../imports/ui/views/NotFound.vue") },
+  { path: "*", component: () => import("../imports/ui/views/NotFound.vue") },
 ];
 
 const router = new VueRouter({

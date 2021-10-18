@@ -54,28 +54,99 @@
                 </b-card>
               </template>
               <template class="signIn createAct" v-if="!currentUser">
-                <b-card header-tag="header">
-                  <template #header>
-                    <h3 class="mb-0 text-center">
-                      Please sign in or create an account.
-                    </h3>
-                  </template>
+                <b-card title="Please sign in or create an account.">
+                  <hr />
+                  <div v-if="propVal === 'create' || propVal === 'login'">
+                    <b-form
+                      @submit="onLogin"
+                      @reset="onReset"
+                      v-if="propVal !== 'create'"
+                    >
+                      <b-form-group id="input-group-1" label-for="input-1">
+                        <div role="group">
+                          <label for="input-username">Username: </label>
+                          <b-form-input
+                            id="input-username"
+                            v-model="form.username"
+                            type="text"
+                            required
+                            trim
+                          ></b-form-input>
+                        </div>
+                        <br />
+                        <div role="group">
+                          <label for="input-password">Password:</label>
+                          <b-form-input
+                            id="input-password"
+                            v-model="form.password"
+                            type="password"
+                            required
+                            trim
+                          ></b-form-input>
+                        </div>
+                        <div class="alert-container" v-if="form.errorMessage">
+                          <div class="alert">
+                            <span
+                              ><i class="icon-sign"></i
+                              >{{ form.errorMessage }}</span
+                            >
+                          </div>
+                        </div>
+                        <br />
+                      </b-form-group>
 
-                  <b-form
-                    @submit="onLogin"
-                    @reset="onReset"
-                    v-if="!create.state"
-                  >
-                    <b-form-group id="input-group-1" label-for="input-1">
+                      <b-button type="submit" variant="success"
+                        >Sign in</b-button
+                      >
+                      <b-button
+                        :pressed.sync="create.state"
+                        @click="resetErr()"
+                        variant="primary"
+                        >Create Account</b-button
+                      >
+                      <b-button type="reset" variant="danger">Reset</b-button>
+                    </b-form>
+                    <b-form
+                      @submit="onCreate"
+                      @reset="onReset"
+                      v-if="propVal === 'create'"
+                    >
+                      <div role="group">
+                        <b-form-group
+                          id="input-group-1"
+                          label="Email:"
+                          label-for="input-email"
+                          description="We respect your privacy."
+                        >
+                          <b-form-input
+                            id="input-email"
+                            v-model="form.email"
+                            type="email"
+                            :state="validate"
+                            aria-describedby="input-live-help validate"
+                            required
+                            placeholder="john.doe@site.com"
+                          ></b-form-input>
+                          <b-form-invalid-feedback id="validate">
+                            Please enter a valid email address!
+                          </b-form-invalid-feedback>
+                        </b-form-group>
+                      </div>
+                      <br />
                       <div role="group">
                         <label for="input-username">Username:</label>
                         <b-form-input
                           id="input-username"
                           v-model="form.username"
                           type="text"
+                          :state="usernameRegex"
+                          aria-describedby="input-live-help user-validate"
                           required
                           trim
                         ></b-form-input>
+                        <b-form-invalid-feedback id="user-validate">
+                          {{ usernameFeedback }}
+                        </b-form-invalid-feedback>
                       </div>
                       <br />
                       <div role="group">
@@ -83,144 +154,98 @@
                         <b-form-input
                           id="input-password"
                           v-model="form.password"
+                          @input="p_len"
                           type="password"
-                          required
+                          :state="passwordStrength"
+                          :required="valid_password"
+                          aria-describedby="live-strength"
                           trim
                         ></b-form-input>
-                      </div>
-                      <div class="alert-container" v-if="form.errorMessage">
-                        <div class="alert">
-                          <span
-                            ><i class="icon-sign"></i
-                            >{{ form.errorMessage }}</span
+                        <div class="lnu_container">
+                          <p v-bind:class="{ length_valid: password_length }">
+                            Length 8-30
+                          </p>
+                          <p
+                            v-bind:class="{
+                              lovercase_valid: contains_lowercase,
+                            }"
                           >
+                            Lowercase
+                          </p>
+                          <p v-bind:class="{ number_valid: contains_number }">
+                            Number
+                          </p>
+                          <p
+                            v-bind:class="{
+                              uppercase_valid: contains_uppercase,
+                            }"
+                          >
+                            Uppercase
+                          </p>
+                        </div>
+
+                        <div
+                          class="valid_password_container"
+                          v-bind:class="{
+                            show_valid_password_container: valid_password,
+                          }"
+                        >
+                          <svg width="100%" height="100%" viewBox="0 0 140 100">
+                            <path
+                              class="tick"
+                              v-bind:class="{ checked: valid_password }"
+                              d="M10,50 l25,40 l95,-70"
+                            />
+                          </svg>
                         </div>
                       </div>
+                      <div v-show="showPass2" role="group">
+                        <!-- <label for="input-live">Password (again):</label> -->
+                        <b-form-input
+                          id="input-live"
+                          v-model="form.password2"
+                          :state="passState"
+                          placeholder="Password (again)"
+                          type="password"
+                          required
+                          aria-describedby="input-live-feedback"
+                          trim
+                        ></b-form-input>
+                        <b-form-invalid-feedback id="input-live-feedback">
+                          Password fields must match.
+                        </b-form-invalid-feedback>
+                      </div>
+                      <div class="alert">
+                        <span
+                          ><i class="icon-sign"></i
+                          >{{ form.errorMessage }}</span
+                        >
+                      </div>
                       <br />
-                    </b-form-group>
-
-                    <b-button type="submit" variant="success">Sign in</b-button>
-                    <b-button
-                      :pressed.sync="create.state"
-                      @click="resetErr()"
-                      variant="primary"
-                      >Create Account</b-button
-                    >
-                    <b-button type="reset" variant="danger">Reset</b-button>
-                  </b-form>
-                  <b-form
-                    @submit="onCreate"
-                    @reset="onReset"
-                    v-if="create.state"
-                  >
-                    <div role="group">
-                      <label for="input-email">Email:</label>
-                      <b-form-input
-                        id="input-email"
-                        v-model="form.email"
-                        type="email"
-                        :state="validate"
-                        aria-describedby="input-live-help validate"
-                        required
-                        placeholder="john.doe@site.com"
-                      ></b-form-input>
-                      <b-form-invalid-feedback id="validate">
-                        Please enter a valid email address!
-                      </b-form-invalid-feedback>
-                    </div>
-                    <br />
-                    <div role="group">
-                      <label for="input-username">Username:</label>
-                      <b-form-input
-                        id="input-username"
-                        v-model="form.username"
-                        type="text"
-                        :state="usernameRegex"
-                        aria-describedby="input-live-help user-validate"
-                        required
-                        trim
-                      ></b-form-input>
-                      <b-form-invalid-feedback id="user-validate">
-                        {{ usernameFeedback }}
-                      </b-form-invalid-feedback>
-                    </div>
-                    <br />
-                    <div role="group">
-                      <label for="input-password">Password:</label>
-                      <b-form-input
-                        id="input-password"
-                        v-model="form.password"
-                        @input="p_len"
-                        type="password"
-                        :state="passwordStrength"
-                        :required="valid_password"
-                        aria-describedby="live-strength"
-                        trim
-                      ></b-form-input>
-                      <div class="lnu_container">
-                        <p v-bind:class="{ length_valid: password_length }">
-                          Length 8-30
-                        </p>
-                        <p
-                          v-bind:class="{ lovercase_valid: contains_lowercase }"
-                        >
-                          Lowercase
-                        </p>
-                        <p v-bind:class="{ number_valid: contains_number }">
-                          Number
-                        </p>
-                        <p
-                          v-bind:class="{ uppercase_valid: contains_uppercase }"
-                        >
-                          Uppercase
-                        </p>
-                      </div>
-
-                      <div
-                        class="valid_password_container"
-                        v-bind:class="{
-                          show_valid_password_container: valid_password,
-                        }"
+                      <b-button type="submit" variant="success"
+                        >Create Account</b-button
                       >
-                        <svg width="100%" height="100%" viewBox="0 0 140 100">
-                          <path
-                            class="tick"
-                            v-bind:class="{ checked: valid_password }"
-                            d="M10,50 l25,40 l95,-70"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div v-show="showPass2" role="group">
-                      <!-- <label for="input-live">Password (again):</label> -->
-                      <b-form-input
-                        id="input-live"
-                        v-model="form.password2"
-                        :state="passState"
-                        placeholder="Password (again)"
-                        type="password"
-                        required
-                        aria-describedby="input-live-feedback"
-                        trim
-                      ></b-form-input>
-                      <b-form-invalid-feedback id="input-live-feedback">
-                        Password fields must match.
-                      </b-form-invalid-feedback>
-                    </div>
-                    <div class="alert">
-                      <span
-                        ><i class="icon-sign"></i>{{ form.errorMessage }}</span
-                      >
-                    </div>
+                      <b-button type="reset" variant="danger">Reset</b-button>
+                    </b-form>
                     <br />
-                    <b-button type="submit" variant="success"
-                      >Create Account</b-button
-                    >
-                    <b-button type="reset" variant="danger">Reset</b-button>
-                  </b-form>
-                  <br />
-                  <br />
-                  <b-spinner v-if="spinner" label="Spinning"></b-spinner>
+                    <br />
+                    <b-spinner v-if="spinner" label="Spinning"></b-spinner>
+                  </div>
+                  <div v-else>
+                    <br />
+                    <b-row align-h="center" class="center">
+                      <b-col cols="6">
+                        <b-button variant="success" @click="loginBtn()"
+                          >Login</b-button
+                        >
+                      </b-col>
+                      <b-col cols="6">
+                        <b-button variant="primary" @click="createBtn()"
+                          >Create Account</b-button
+                        >
+                      </b-col>
+                    </b-row>
+                  </div>
                 </b-card>
               </template>
             </b-col>
@@ -237,6 +262,7 @@ import { Meteor } from "meteor/meteor";
 import validator from "validator";
 
 export default {
+  props: ["prop"],
   computed: {
     passState() {
       return this.form.password2 == this.form.password ? true : false;
@@ -277,6 +303,12 @@ export default {
     },
   },
   data() {
+    let creationState = false;
+
+    if (this.prop === "create") {
+      creationState = true;
+    }
+
     return {
       form: {
         email: "",
@@ -292,6 +324,7 @@ export default {
       logout: {
         state: false,
       },
+      propVal: this.prop,
       success: false,
       spinner: false,
       name: "",
@@ -310,6 +343,13 @@ export default {
     resetErr() {
       this.form.errorMessage = "";
     },
+    loginBtn() {
+      this.propVal = "login";
+    },
+    createBtn() {
+      this.propVal = "create";
+      this.create.state = true;
+    },
     async onLogin(evt) {
       evt.preventDefault();
       this.spinner = true;
@@ -322,6 +362,34 @@ export default {
         function (err) {
           if (err) {
             self.form.errorMessage = err.message;
+          } else {
+            Meteor.call("appStreak", (error, _res) => {
+              if (error) {
+                console.log(error.error);
+                if (error.error == "no-rewards") {
+                  Meteor.call(
+                    "Rewards.initializeUser",
+                    self.getUsername(),
+                    (error, _res) => {
+                      if (error) {
+                        console.log(error.error);
+                      } else {
+                        console.log("Successfully added rewards to user");
+                        Meteor.call("appStreak", (error, _res) => {
+                          if (error) {
+                            console.log(error.error);
+                          } else {
+                            console.log("Successfully updated app streak");
+                          }
+                        });
+                      }
+                    }
+                  );
+                }
+              } else {
+                console.log("Successfully updated app streak");
+              }
+            });
           }
         }
       );
@@ -345,13 +413,24 @@ export default {
             self.form.errorMessage = err.message;
           } else {
             // Could add a call here that will create default tasks
-            // Meteor.call("userStats.create", function (error) {
-            //   if (error) {
-            //     alert(`${error}`);
-            //   } else {
-            //     console.log("Successfully created user stats");
-            //   }
-            // });
+            Meteor.call("initializeUser", self.form.username, function (error) {
+              if (error) {
+                alert(`${error}`);
+              } else {
+                console.log("Successfully created user stats");
+                Meteor.call(
+                  "Rewards.initializeUser",
+                  self.form.username,
+                  function (error) {
+                    if (error) {
+                      alert(`${error}`);
+                    } else {
+                      console.log("Successfully created user rewards");
+                    }
+                  }
+                );
+              }
+            });
           }
         }
       );

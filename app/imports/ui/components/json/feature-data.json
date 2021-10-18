@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Feature One",
+    "description": "Focus on one task at a time to streamline your productivity by reducing distractions and calming anxiety.",
+    "bg": "info",
+    "text": "white"
+  },
+  {
+    "title": "Feature Two (coming soon)",
+    "description": "Adjust the priority of the tasks on your To-Do List to ensure you are doing the most important work at the right time.",
+    "bg": "success",
+    "text": "white"
+  },
+  {
+    "title": "Feature Three (coming soon)",
+    "description": "Reduce the noise by Brain Dumping all your anxieties and allow yourself to feel prepared.",
+    "bg": "warning",
+    "text": "white"
+  }
+]

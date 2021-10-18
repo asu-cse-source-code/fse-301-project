@@ -1,0 +1,102 @@
+<template>
+  <b-row align-h="start" class="mt-5 mb-5">
+    <b-col sm="3">
+      <b-img class="no-border" thumbnail fluid src="/images/arrow.png"></b-img>
+    </b-col>
+    <b-col sm="8" md="6">
+      <div v-if="!currentUser">
+        <home-table class="mt-5" :items="todosIncomplete" />
+      </div>
+      <div v-else-if="todos && todos.length > 0">
+        <home-card :task="todos[0]" />
+      </div>
+      <div v-else>
+        <b-card class="center">
+          <h3 class="pb-5">You have no incomplete tasks :)</h3>
+          <div class="top-left">
+            <b-button variant="primary" @click="showModal = !showModal" squared
+              >New Task</b-button
+            >
+          </div>
+          <b-modal
+            v-model="showModal"
+            title="Add New Task"
+            size="lg"
+            scrollable
+            header-bg-variant="secondary"
+            body-bg-variant="light"
+            body-text-variant="dark"
+            footer-bg-variant="dark"
+            backdrop
+          >
+            <add-item></add-item>
+            <template v-slot:modal-footer="{ close }">
+              <!-- Button with custom close trigger value -->
+              <div class="w-100">
+                <!-- Emulate built in modal footer ok and cancel button actions -->
+                <b-button
+                  id="danger"
+                  size="md"
+                  variant="light"
+                  class="float-right"
+                  @click="close()"
+                >
+                  Cancel
+                </b-button>
+              </div>
+            </template>
+          </b-modal>
+        </b-card>
+      </div>
+    </b-col>
+  </b-row>
+</template>
+
+<script>
+import Todos from "../../../api/collections/Todo";
+import HomeTable from "../tables/HomeTable.vue";
+import HomeCard from "../feature-cards/HomeCard.vue";
+import AddItem from "../AddItem.vue";
+
+export default {
+  components: {
+    HomeTable,
+    HomeCard,
+    AddItem,
+  },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  meteor: {
+    $subscribe: {
+      todosIncomplete: [],
+      todos: [],
+    },
+    todosIncomplete() {
+      return Todos.find({});
+    },
+    todos() {
+      return Todos.find(
+        {
+          username: this.getUsername(),
+          completed: false,
+        },
+        {
+          sort: { due: 1 },
+          limit: 1,
+        }
+      );
+    },
+    currentUser() {
+      return Meteor.user();
+    },
+  },
+  methods: {
+    getUsername() {
+      return this.currentUser?.username;
+    },
+  },
+};
+</script>

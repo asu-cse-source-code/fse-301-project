@@ -1,6 +1,6 @@
 # fse-301-project
 
-Web app created for FSE 301
+Web app created for FSE 301. Planner focused on people effected by ADHD
 
 ## Tech Stack
 
@@ -22,7 +22,7 @@ Back-end is built with JavaScript and the database used is MongoDB
 
 ### Containerization & Deployment
 
-Application is bundled into a Docker container and stored on a Kubernetes cluster. Container is connected to external MongoDB. Container has ingress pointing to domain name.
+Application is bundled into a Docker container and deployed on a Kubernetes cluster. Container is connected to external MongoDB. Container has ingress pointing to domain name.
 
 ### CI / CD
 

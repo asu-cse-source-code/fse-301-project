@@ -1,0 +1,27 @@
+[
+  { "title": "Home", "url": "/", "routeName": "Home", "loginReq": false },
+  {
+    "title": "About",
+    "url": "/about",
+    "routeName": "About",
+    "loginReq": false
+  },
+  {
+    "title": "Calendar",
+    "url": "/calendar",
+    "routeName": "Calendar",
+    "loginReq": true
+  },
+  {
+    "title": "To-Do",
+    "url": "/to-do/",
+    "routeName": "List",
+    "loginReq": true
+  },
+  {
+    "title": "Login",
+    "url": "/login/nav",
+    "routeName": "Login",
+    "loginReq": false
+  }
+]

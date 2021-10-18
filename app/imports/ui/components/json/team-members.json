@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Austin Spencer",
+    "title": "Developer",
+    "info": "Student at ASU studying Computer Science",
+    "image": "/images/austin.JPG",
+    "linkOne": "https://www.linkedin.com/in/austinbspencer/",
+    "linkOneTitle": "LinkedIn"
+  },
+  {
+    "name": "David Logger",
+    "title": "Media & Marketing",
+    "info": "Student at ASU studying Digital Media Audiences",
+    "image": "/images/david.png",
+    "linkOne": "https://www.linkedin.com/in/david-logger-68a56930/",
+    "linkOneTitle": "LinkedIn"
+  },
+  {
+    "name": "Samantha Kervadec",
+    "title": "Design & Marketing",
+    "info": "Student at ASU studying Management",
+    "image": "/images/samantha.jpeg",
+    "linkOne": "https://www.linkedin.com/in/samantha-kervadec",
+    "linkOneTitle": "LinkedIn"
+  },
+  {
+    "name": "Sidney Schultz",
+    "title": "Design & Marketing",
+    "info": "Student at ASU studying Management",
+    "image": "/images/sydney.jpeg",
+    "linkOne": "https://www.linkedin.com/in/sidney-schultz-8053b9193/",
+    "linkOneTitle": "LinkedIn"
+  }
+]

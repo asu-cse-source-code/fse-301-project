@@ -25,7 +25,7 @@ stages:
           - pull request
 branch:
   include:
-    - main
+    - master
 notification:
   recipients:
     - recipient: "abspencer2097@gmail.com"

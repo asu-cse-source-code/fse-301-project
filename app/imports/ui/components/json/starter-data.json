@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Login",
+    "description": "Login or create an account to start keeping track of your tasks!",
+    "url": "/login",
+    "completed": false
+  },
+  {
+    "title": "Create an Account",
+    "description": "If you don't already have an accout, create one now!",
+    "url": "/create-acct",
+    "completed": false
+  },
+  {
+    "title": "Read the Docs",
+    "description": "Read the documentation we have!",
+    "url": "https://git.austinbspencer.com/fse-301-planner/#/",
+    "completed": false
+  }
+]
