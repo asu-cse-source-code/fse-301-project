@@ -26,4 +26,4 @@ Application is bundled into a Docker container and deployed on a Kubernetes clus
 
 ### CI / CD
 
-Each push to main will create a new base Docker image for the application within Kubernetes cluster
+Each push to main will create a new base Docker image for the application within Kubernetes project
