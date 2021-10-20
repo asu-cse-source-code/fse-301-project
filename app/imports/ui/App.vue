@@ -8,7 +8,6 @@
     </div>
     <div id="nav">
       <add-item-bar-top />
-      <!-- <add-item /> -->
     </div>
     <div id="footer">
       <custom-footer></custom-footer>
@@ -19,14 +18,12 @@
 <script>
 import NavBar from "./components/nav/Nav.vue";
 import CustomFooter from "./components/Footer.vue";
-// import AddItem from "./components/nav/AddItemBar.vue";
 import AddItemBarTop from "./components/nav/AddItemBarTop.vue";
 
 export default {
   components: {
     NavBar,
     CustomFooter,
-    // AddItem,
     AddItemBarTop,
   },
 };
