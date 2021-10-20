@@ -1,6 +1,6 @@
 <template>
   <b-row align-h="start" class="mt-5 mb-5">
-    <b-col sm="3">
+    <b-col class="d-none d-sm-block" sm="3">
       <b-img class="no-border" thumbnail fluid src="/images/arrow.png"></b-img>
     </b-col>
     <b-col sm="8" md="6">
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
 import Todos from "../../../api/collections/Todo";
 import HomeTable from "../tables/HomeTable.vue";
 import HomeCard from "../feature-cards/HomeCard.vue";

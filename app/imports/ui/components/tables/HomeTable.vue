@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
 import TaskModal from "../TaskModal.vue";
 const timeDif = require("../../../api/helper/timeRemaining.js");
 import starterData from "../json/starter-data.json";

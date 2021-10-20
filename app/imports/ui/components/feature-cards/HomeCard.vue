@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
 const timeDif = require("../../../api/helper/timeRemaining.js");
 
 export default {

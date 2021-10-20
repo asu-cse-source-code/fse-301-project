@@ -161,6 +161,8 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
+
 export default {
   props: ["inputForm", "editing"],
   data() {

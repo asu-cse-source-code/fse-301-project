@@ -1,11 +1,11 @@
 <template>
   <div class="mt-4 mb-4">
     <!-- <h1 class="mt-4 mb-4 center">Your Planner</h1> -->
-    <b-row class="d-block d-md-none">
+    <!-- <b-row class="d-block d-md-none">
       <b-col cols="12">
         <sun />
       </b-col>
-    </b-row>
+    </b-row> -->
     <b-row class="mt-4 mb-4" align-h="center">
       <b-col md="8" sm="12">
         <greeting />

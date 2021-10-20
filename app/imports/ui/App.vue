@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
 import NavBar from "./components/nav/Nav.vue";
 import CustomFooter from "./components/Footer.vue";
 import AddItemBarTop from "./components/nav/AddItemBarTop.vue";

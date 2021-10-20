@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
+
 export default {
   data() {
     var today = new Date();
