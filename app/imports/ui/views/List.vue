@@ -4,9 +4,16 @@
     <b-container>
       <b-row align-h="center" class="mb-2">
         <b-col cols="4">
-          <b-button block @click="showModal = !showModal" variant="primary"
-            >Add New Task</b-button
-          >
+          <router-link :to="'/create'" custom v-slot="{ navigate }">
+            <b-button
+              block
+              variant="primary"
+              @click="navigate"
+              @keypress.enter="navigate"
+              squared
+              >New Task</b-button
+            >
+          </router-link>
         </b-col>
       </b-row>
       <b-modal
