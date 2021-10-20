@@ -6,10 +6,10 @@
       integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
       crossorigin="anonymous"
     />
-    <b-navbar toggleable="sm" type="dark" variant="dark" class="" fixed="top">
-      <nav-sidebar class="d-block d-sm-none"></nav-sidebar>
+    <b-navbar type="dark" variant="dark" class="" fixed="top">
+      <!-- <nav-sidebar class="d-block d-sm-none"></nav-sidebar> -->
       <b-navbar-brand id="brand" href="/"> No-Limit Planner </b-navbar-brand>
-      <b-navbar-nav class="d-none d-sm-block" v-if="currentUser">
+      <b-navbar-nav v-if="currentUser">
         <b-nav-item @click="showModal = !showModal">
           <span>New Task</span>
         </b-nav-item>
