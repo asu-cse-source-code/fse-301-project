@@ -9,11 +9,6 @@
     <b-navbar type="dark" variant="dark" class="" fixed="top">
       <!-- <nav-sidebar class="d-block d-sm-none"></nav-sidebar> -->
       <b-navbar-brand id="brand" href="/"> No-Limit Planner </b-navbar-brand>
-      <b-navbar-nav v-if="currentUser">
-        <b-nav-item @click="showModal = !showModal">
-          <span>New Task</span>
-        </b-nav-item>
-      </b-navbar-nav>
       <b-modal
         v-model="showModal"
         title="Add New Task"
@@ -193,15 +188,13 @@
 
 <script>
 import { Meteor } from "meteor/meteor";
-import NavSidebar from "./NavSidebar.vue";
-import AddItem from "../AddItem.vue";
+// import NavSidebar from "./NavSidebar.vue";
 import Links from "../json/page-links.json";
 
 export default {
   name: "Nav",
   components: {
-    NavSidebar,
-    AddItem,
+    // NavSidebar,
   },
 
   directives: {},
