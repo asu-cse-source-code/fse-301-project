@@ -90,7 +90,7 @@
               size="md"
               variant="info"
               class="float-left"
-              @click="edit = !edit"
+              @click="goToEdit(modalData)"
             >
               Edit
             </b-button>
@@ -161,6 +161,9 @@ export default {
     myRowClickHandler2(record, _index) {
       this.modalData = record;
       this.showModal = true;
+    },
+    goToEdit(record) {
+      this.$router.push({ name: "Task", params: { taskId: record._id } });
     },
     markComplete(data) {
       const self = this;
