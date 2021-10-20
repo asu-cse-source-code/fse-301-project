@@ -9,7 +9,7 @@
     <div id="nav">
       <add-item-bar-top />
     </div>
-    <div id="footer">
+    <div id="app-footer">
       <custom-footer></custom-footer>
     </div>
   </div>
