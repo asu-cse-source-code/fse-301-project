@@ -69,7 +69,7 @@ Meteor.methods({
       {
         title: "Read the Docs",
         description: "Read the documentation we have!",
-        url: "https://git.austinbspencer.com/fse-301-planner/#/",
+        url: "https://docs.planner.austinbspencer.com/#/",
         priority: 1,
         dueDate: date,
         dueTime: time,
