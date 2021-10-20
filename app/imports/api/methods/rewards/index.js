@@ -82,11 +82,11 @@ Meteor.methods({
     // Check if this is just a streak bonus and if it is don't update the streak
     // since this was not a task completed
     if (!bonus) {
-      if (streak < 0 && sentiment) {
+      if (streak <= 0 && sentiment) {
         streak = 1;
       } else if (streak < 0) {
         streak -= 1;
-      } else if (streak > 0 && sentiment) {
+      } else if (streak >= 0 && sentiment) {
         streak += 1;
       } else {
         streak = -1;
