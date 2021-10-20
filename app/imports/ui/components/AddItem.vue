@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4 mt-5">
-    <!-- <b-row v-if="!editing" align-h="center" class="mb-2">
+    <!-- <b-row v-if="!edit" align-h="center" class="mb-2">
       <b-col cols="4">
         <b-button
           block
@@ -11,11 +11,23 @@
         >
       </b-col>
     </b-row> -->
-    <b-row v-if="response" align-h="center" class="mb-2">
-      <b-col cols="8">
-        <span>{{ response }}</span>
-      </b-col>
-    </b-row>
+    <div v-if="response">
+      <b-row align-h="center" class="mb-2">
+        <b-col cols="8">
+          <span>{{ response }}</span>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="4">
+          <b-button variant="primary" @click="anotherTask()">
+            Another Task
+          </b-button>
+        </b-col>
+        <b-col cols="4">
+          <b-button variant="info" @click="goToTask()"> View Task </b-button>
+        </b-col>
+      </b-row>
+    </div>
     <b-row class="mb-2" align-h="end">
       <b-col>
         <b-collapse id="collapse-1" v-model="visible" class="mt-2">
@@ -52,7 +64,7 @@
                   ></b-form-textarea>
                 </b-form-group>
               </b-col>
-              <b-col sm="6" md="3">
+              <b-col sm="6" md="6" lg="4">
                 <b-form-group
                   id="input-group-3"
                   label="Due Date:"
@@ -74,7 +86,7 @@
                   ></b-form-datepicker>
                 </b-form-group>
               </b-col>
-              <b-col sm="6" md="3">
+              <b-col sm="6" md="6" lg="4">
                 <b-form-group
                   id="input-group-6"
                   label="Due Time:"
@@ -117,7 +129,7 @@
                   </b-row>
                 </b-form-group>
               </b-col>
-              <b-col sm="6">
+              <b-col sm="10" md="10" lg="4">
                 <b-row>
                   <b-col cols="12">
                     <b-form-group id="input-group-8">
@@ -131,7 +143,6 @@
                           id="input-8"
                           v-model="form.url"
                           type="text"
-                          placeholder="https://www.youtube.com/"
                         ></b-form-input>
                       </b-form-group>
                     </b-form-group>
@@ -144,7 +155,7 @@
                       type="submit"
                       variant="primary"
                       :disabled="changes()"
-                      >{{ editing ? "Update" : "Submit" }}</b-button
+                      >{{ edit ? "Update" : "Submit" }}</b-button
                     >
                     <b-button class="ml-2" type="reset" variant="danger"
                       >Reset</b-button
@@ -198,6 +209,7 @@ export default {
     }
     return {
       visible: visible,
+      edit: this.editing || false,
       form: form,
       priorities: [
         { text: "Basic", value: 1 },
@@ -209,6 +221,7 @@ export default {
       response: null,
       timeInput: `${hours}:${minutes} ${am_pm}`,
       am: am,
+      newTask: null,
     };
   },
   methods: {
@@ -237,19 +250,23 @@ export default {
           if (error) {
             self.response = error.error;
           } else {
-            self.resetForm();
-            self.visible = false;
-            self.response = "Successfully updated your task!";
+            // self.resetForm();
+            alert("Successfully updated your task!");
+            // self.visible = false;
+            // self.response = ;
+            // self.edit = false;
           }
         });
       } else {
-        Meteor.call("createTodo", self.form, (error, _res) => {
+        Meteor.call("createTodo", self.form, (error, res) => {
           if (error) {
             self.response = error.error;
           } else {
             self.resetForm();
             self.visible = false;
             self.response = "Successfully created your task!";
+            console.log(res);
+            self.newTask = res;
           }
         });
       }
@@ -345,6 +362,13 @@ export default {
       this.form.dueTime = newTime + ":00";
       am_pm = this.am ? "AM" : "PM";
       return newTime + " " + am_pm;
+    },
+    anotherTask() {
+      this.visible = true;
+      this.response = null;
+    },
+    goToTask() {
+      this.$router.push({ name: "Task", params: { taskId: this.newTask } });
     },
   },
 };
