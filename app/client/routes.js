@@ -39,6 +39,17 @@ const routes = [
     name: "Info",
     component: () => import("../imports/ui/views/Info.vue"),
   },
+  {
+    path: "/create/",
+    name: "Create",
+    component: () => import("../imports/ui/views/TaskCreation.vue"),
+  },
+  {
+    path: "/task/:taskId",
+    name: "Task",
+    props: true,
+    component: () => import("../imports/ui/views/ViewTask.vue"),
+  },
   { path: "/404", component: () => import("../imports/ui/views/NotFound.vue") },
   { path: "*", component: () => import("../imports/ui/views/NotFound.vue") },
 ];
