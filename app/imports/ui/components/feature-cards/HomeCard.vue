@@ -23,12 +23,12 @@
     <br /><br /><br />
     <hr />
     <b-row>
-      <b-col cols="10">
+      <b-col cols="8">
         <b-button variant="success" @click="markComplete(task)"
           >Complete</b-button
         >
       </b-col>
-      <b-col v-if="task.url" cols="2">
+      <b-col v-if="task.url" cols="4">
         <b-button :href="task.url" variant="primary"
           ><i class="fas fa-external-link-alt"></i
         ></b-button>
