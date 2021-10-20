@@ -174,4 +174,19 @@ Meteor.methods({
       },
     });
   },
+  getTodo(taskId) {
+    check(taskId, String);
+
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    const data = Todo.findOne(taskId);
+
+    if (data === undefined || data === null) {
+      throw new Meteor.Error("Task not found");
+    }
+
+    return data;
+  },
 });
