@@ -15,7 +15,7 @@
             style="font-weight: bold; color: red"
             >OVER DUE:
           </span>
-          <span v-else style="font-weight: bold; color: green">Goal is: </span>
+          <span v-else style="font-weight: bold; color: green">Due in: </span>
           {{ time.difference }}
         </div>
       </div>
