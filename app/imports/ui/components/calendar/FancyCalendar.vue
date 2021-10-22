@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5">
     <b-row align-h="center" class="mb-2">
       <b-col cols="2">
         <b-button block variant="outline-info" @click="activeView = 'day'"
