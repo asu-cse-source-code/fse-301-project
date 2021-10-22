@@ -12,7 +12,7 @@
           </b-button>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="left">
         <b-col md="6" sm="12" v-if="rewardsObj">
           <ul>
             <li><strong>Total Points:</strong> {{ rewardsObj.points }}</li>
@@ -79,16 +79,21 @@
         </b-col>
       </b-row>
     </b-container>
+    <div v-if="topRewards !== undefined">
+      <top-users :rewardData="topRewards" />
+    </div>
   </div>
 </template>
 
 <script>
 import { Meteor } from "meteor/meteor";
+import Rewards from "../../api/collections/Rewards";
+import TopUsers from "../components/TopUsers.vue";
 
 export default {
   name: "Fse301PlannerProfile",
   props: ["id"],
-  components: {},
+  components: { TopUsers },
 
   data() {
     return {
@@ -126,6 +131,19 @@ export default {
     });
   },
   meteor: {
+    $subscribe: {
+      // Subscribes to the 'threads' publication with no parameters
+      topRewards: [],
+    },
+    topRewards() {
+      return Rewards.find(
+        {},
+        {
+          sort: { points: -1 },
+        },
+        { limit: 3 }
+      ).fetch();
+    },
     currentUser() {
       return Meteor.user();
     },
