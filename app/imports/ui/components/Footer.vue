@@ -25,22 +25,31 @@
               <h4>Important Links</h4>
               <p class="menu pt-3">
                 <a href="/">Home </a>&ensp;|&ensp;
-                <a href="/about">About </a>&ensp;|&ensp;
                 <!-- <a href="https://laudecapital.com/login"> Login </a> &ensp;|&ensp; -->
-                <a href="mailto:admin@austinbspencer.com"> Contact </a
+                <a href="mailto:no-limit.planner@austinbspencer.com">
+                  Contact </a
                 >&ensp;|&ensp;
                 <!-- <a href="https://github.com/austinbspencer" class="github"
                   ><i class="fas fa-code-branch"></i></a
                 >&ensp;|&ensp; -->
-                <a href="mailto:issue@austinbspencer.com">Issues</a>
+                <a
+                  href="https://docs.nolimit.austinbspencer.com/#/"
+                  target="_blank"
+                  >Docs </a
+                >&ensp;|&ensp;
+                <a
+                  href="https://github.com/austinbspencer/no-limit-planner/issues"
+                  target="_blank"
+                  >Issues</a
+                >
               </p>
-              <h5>Follow Us</h5>
+              <!-- <h5>Follow Us</h5>
               <ul class="pt-3 social-network social-circle">
-                <!-- <li>
+                <li>
                   <a href="https://github.com/laude-capital" class="github"
                     ><i class="fab fa-github-square fa-2x"></i>&emsp;</a
                   >
-                </li> -->
+                </li>
                 <li>
                   <a href="#" class="github"
                     ><i class="fab fa-instagram fa-2x"></i>&emsp;</a
@@ -56,7 +65,7 @@
                     ><i class="fab fa-facebook fa-2x"></i>&emsp;</a
                   >
                 </li>
-              </ul>
+              </ul> -->
             </div>
           </div>
         </div>
