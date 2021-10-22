@@ -1,9 +1,6 @@
 <template>
   <b-container>
-    <b-calendar block @context="onContext" locale="en-US"></b-calendar>
-    <br />
-    <br />
-    <!-- <pre>{{ context }}</pre> -->
+    <!-- <b-calendar block @context="onContext" locale="en-US"></b-calendar>
     <h4 v-if="context && context.activeDate">
       {{ context.activeDate.toDateString() }}
     </h4>
@@ -47,9 +44,7 @@
         <task-modal v-if="!edit" :modalData="modalData"></task-modal>
         <add-item v-if="edit" :inputForm="modalData" :editing="true"></add-item>
         <template v-slot:modal-footer>
-          <!-- Button with custom close trigger value -->
           <div class="w-100">
-            <!-- Emulate built in modal footer ok and cancel button actions -->
             <b-button
               v-if="!edit"
               size="md"
@@ -80,31 +75,29 @@
           </div>
         </template>
       </b-modal>
+    </div> -->
+    <div v-if="todosIncomplete !== undefined && todosIncomplete.length > 0">
+      <fancy-calendar :events="todosIncomplete"></fancy-calendar>
     </div>
   </b-container>
 </template>
 
 <script>
 import Todos from "../../api/collections/Todo";
-import TaskModal from "../components/TaskModal.vue";
-import AddItem from "../components/AddItem.vue";
+// import TaskModal from "../components/TaskModal.vue";
+// import AddItem from "../components/AddItem.vue";
+import FancyCalendar from "../components/calendar/FancyCalendar.vue";
 
 export default {
   name: "Calendar",
   components: {
-    TaskModal,
-    AddItem,
+    // TaskModal,
+    // AddItem,
+    FancyCalendar,
   },
 
   data() {
-    return {
-      context: null,
-      modalData: null,
-      showModal: false,
-      edit: false,
-      badgeColors: ["light", "secondary", "info", "danger"],
-      count: 0,
-    };
+    return {};
   },
 
   mounted() {},
@@ -120,58 +113,58 @@ export default {
     },
   },
   methods: {
-    onContext(ctx) {
-      this.context = ctx;
-    },
-    checkDates(due, date) {
-      due = new Date(due);
-      return due.toDateString() === date.toDateString();
-    },
-    displayTodo(todo) {
-      this.modalData = todo;
-      this.showModal = true;
-    },
-    markComplete(data) {
-      const self = this;
-      Meteor.call("completeTodo", data._id, !data.completed, (error, res) => {
-        if (error) {
-          alert(error.error);
-        } else {
-          console.log(res);
-          if (res > 0) {
-            self.showToast(res);
-            self.showModal = false;
-          }
-        }
-      });
-    },
-    showToast(points) {
-      // Use a shorter name for this.$createElement
-      const h = this.$createElement;
-      // Increment the toast count
-      this.count++;
-      // Create the message
-      const vNodesMsg = h("p", { class: ["text-center", "mb-0"] }, [
-        h("h4", {}, `Nice Job! You just received ${points} points!`),
-      ]);
-      // Create the title
-      const vNodesTitle = h(
-        "div",
-        { class: ["d-flex", "flex-grow-1", "align-items-baseline", "mr-2"] },
-        [
-          h("strong", { class: "mr-2" }, " New Rewards!"),
-          // h("span", { class: "ml-auto text-italics" }, points),
-        ]
-      );
-      // Pass the VNodes as an array for message and title
-      this.$bvToast.toast([vNodesMsg], {
-        id: `toasting-${this.count}`,
-        toaster: "b-toaster-top-center",
-        title: [vNodesTitle],
-        solid: true,
-        variant: "success",
-      });
-    },
+    // onContext(ctx) {
+    //   this.context = ctx;
+    // },
+    // checkDates(due, date) {
+    //   due = new Date(due);
+    //   return due.toDateString() === date.toDateString();
+    // },
+    // displayTodo(todo) {
+    //   this.modalData = todo;
+    //   this.showModal = true;
+    // },
+    // markComplete(data) {
+    //   const self = this;
+    //   Meteor.call("completeTodo", data._id, !data.completed, (error, res) => {
+    //     if (error) {
+    //       alert(error.error);
+    //     } else {
+    //       console.log(res);
+    //       if (res > 0) {
+    //         self.showToast(res);
+    //         self.showModal = false;
+    //       }
+    //     }
+    //   });
+    // },
+    // showToast(points) {
+    //   // Use a shorter name for this.$createElement
+    //   const h = this.$createElement;
+    //   // Increment the toast count
+    //   this.count++;
+    //   // Create the message
+    //   const vNodesMsg = h("p", { class: ["text-center", "mb-0"] }, [
+    //     h("h4", {}, `Nice Job! You just received ${points} points!`),
+    //   ]);
+    //   // Create the title
+    //   const vNodesTitle = h(
+    //     "div",
+    //     { class: ["d-flex", "flex-grow-1", "align-items-baseline", "mr-2"] },
+    //     [
+    //       h("strong", { class: "mr-2" }, " New Rewards!"),
+    //       // h("span", { class: "ml-auto text-italics" }, points),
+    //     ]
+    //   );
+    //   // Pass the VNodes as an array for message and title
+    //   this.$bvToast.toast([vNodesMsg], {
+    //     id: `toasting-${this.count}`,
+    //     toaster: "b-toaster-top-center",
+    //     title: [vNodesTitle],
+    //     solid: true,
+    //     variant: "success",
+    //   });
+    // },
   },
 };
 </script>
