@@ -172,9 +172,8 @@ export default {
           alert(error.error);
         } else {
           if (res > 0) {
-            self.showToast(res);
-          } else {
-            console.log("IDK");
+            // self.showToast(res);
+            alert(`Nice Job! You just received ${res} points!`);
           }
         }
       });
