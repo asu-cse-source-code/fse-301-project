@@ -310,12 +310,14 @@ export default {
       return false;
     },
     switchAm() {
-      this.am = !this.am;
       console.log(this.form.dueTime);
-      let currTime = parseInt(this.form.dueTime.slice(0, 2));
+
+      let prevTime = parseInt(this.form.dueTime.slice(0, 2));
       let currMin = this.form.dueTime.slice(3, 5);
 
-      currTime = this.am ? currTime - 12 : currTime + 12;
+      let currTime = this.am ? prevTime + 12 : prevTime - 12;
+      this.am = !this.am;
+
       if (currTime < 10) {
         currTime = "0" + currTime.toString();
       } else {
@@ -323,6 +325,11 @@ export default {
       }
 
       const newTime = `${currTime}:${currMin}:00`;
+
+      this.timeInput = this.am
+        ? `${prevTime - 12}:${currMin} AM`
+        : `${prevTime}:${currMin} PM`;
+
       console.log(newTime);
       this.form.dueTime = newTime;
     },

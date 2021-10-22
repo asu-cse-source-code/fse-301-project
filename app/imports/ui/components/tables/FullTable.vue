@@ -173,6 +173,8 @@ export default {
         } else {
           if (res > 0) {
             self.showToast(res);
+          } else {
+            console.log("IDK");
           }
         }
       });
