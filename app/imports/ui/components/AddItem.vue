@@ -183,7 +183,7 @@ export default {
       title: "",
       description: "",
       url: "",
-      priority: 1,
+      priority: 0,
       dueDate: null,
       dueTime: value,
       completed: false,
