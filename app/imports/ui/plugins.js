@@ -3,6 +3,10 @@ import VueMeteorTracker from "vue-meteor-tracker";
 
 Vue.use(VueMeteorTracker);
 
+import TrendChart from "vue-trend-chart";
+
+Vue.use(TrendChart);
+
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)

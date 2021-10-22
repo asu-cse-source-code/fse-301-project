@@ -79,6 +79,10 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-container class="mt-3 mb-3" v-if="labels.yLabels > 3">
+      <h4 class="mt-4 mb-4 center">Rewards Chart</h4>
+      <rewards-graph :labels="labels" :datasets="datasets"></rewards-graph>
+    </b-container>
     <div v-if="topRewards !== undefined">
       <top-users :rewardData="topRewards" />
     </div>
@@ -89,15 +93,28 @@
 import { Meteor } from "meteor/meteor";
 import Rewards from "../../api/collections/Rewards";
 import TopUsers from "../components/TopUsers.vue";
+import RewardsGraph from "../components/graph/RewardsGraph.vue";
 
 export default {
   name: "Fse301PlannerProfile",
   props: ["id"],
-  components: { TopUsers },
+  components: { TopUsers, RewardsGraph },
 
   data() {
     return {
       rewardsObj: null,
+      chartOptions: null,
+      datasets: [
+        {
+          data: [],
+          smooth: true,
+          fill: true,
+        },
+      ],
+      labels: {
+        xLabels: [],
+        yLabels: 1,
+      },
     };
   },
 
@@ -119,6 +136,32 @@ export default {
         alert("Oops, unable to copy!", err);
       }
     },
+    createProfitChart() {
+      const object = this.rewardsObj.pointsObj;
+      // const object = {
+      //   "Fri Oct 22 2021": 345,
+      //   "Thu Oct 21 2021": 30,
+      //   "Wed Oct 20 2021": 50,
+      //   "Tue Oct 19 2021": 100,
+      // };
+
+      let count = 0;
+      let total = 0;
+
+      for (const date in object) {
+        total = object[date] + total;
+        this.datasets[0].data.push(total);
+        const dateObj = new Date(date);
+        const year = dateObj.getFullYear().toString().slice(2, 4);
+        const month = dateObj.getMonth();
+        const day = dateObj.getDate();
+        const formatDate = `${month + 1}-${day}-${year}`;
+        this.labels.xLabels.push(formatDate);
+        count++;
+      }
+
+      this.labels.yLabels = count;
+    },
   },
   created() {
     const self = this;
@@ -127,6 +170,7 @@ export default {
         alert(error.error);
       } else {
         self.rewardsObj = res;
+        self.createProfitChart();
       }
     });
   },
