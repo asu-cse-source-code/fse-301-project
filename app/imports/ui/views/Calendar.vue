@@ -8,15 +8,11 @@
 
 <script>
 import Todos from "../../api/collections/Todo";
-// import TaskModal from "../components/TaskModal.vue";
-// import AddItem from "../components/AddItem.vue";
 import FancyCalendar from "../components/calendar/FancyCalendar.vue";
 
 export default {
   name: "Calendar",
   components: {
-    // TaskModal,
-    // AddItem,
     FancyCalendar,
   },
 
