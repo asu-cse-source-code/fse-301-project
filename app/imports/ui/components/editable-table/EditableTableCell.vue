@@ -62,28 +62,14 @@
       </template>
       <template v-slot:cell(completed)="row">
         <b-button
-          :variant="row.item.completed ? 'danger' : 'success'"
+          :variant="row.item.completed ? 'info' : 'success'"
+          :disabled="row.item.completed"
           pill
           block
           @click="markComplete(row.item)"
         >
-          {{ row.item.completed ? "Incomplete" : "Complete" }}
+          {{ row.item.completed ? "Completed" : "Complete" }}
         </b-button>
-      </template>
-      <template v-slot:cell(remove)="row">
-        <div class="center">
-          <b-button
-            :variant="`outline-danger`"
-            size="sm"
-            square
-            block
-            v-b-tooltip.hover
-            title="WARNING: Can't be undone!"
-            @click="removeTask(row.item)"
-          >
-            <i class="far fa-trash-alt fa-lg"></i>
-          </b-button>
-        </div>
       </template>
     </b-table>
     <div v-if="showModal">
@@ -156,7 +142,6 @@ export default {
         // "description",
         { key: "dueDate", label: "Time Left" },
         { key: "completed", label: "Status" },
-        "remove",
         { key: "_id", label: "" },
       ],
       items: this.todos,
@@ -223,18 +208,6 @@ export default {
         } else {
           if (res > 0) {
             alert(`Nice Job! You just received ${res} points!`);
-          }
-        }
-      });
-    },
-    removeTask(data) {
-      console.log("Removing item");
-      Meteor.call("removeTodo", data._id, (error, res) => {
-        if (error) {
-          alert(error.error);
-        } else {
-          if (res !== 1) {
-            alert(`There was an error attempting to remove your task`);
           }
         }
       });
