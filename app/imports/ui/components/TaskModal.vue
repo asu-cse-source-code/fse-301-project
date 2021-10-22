@@ -18,9 +18,7 @@
         <b-col class="mb-3" md="6" lg="4">
           <b>Due Time:</b> {{ modalData.dueTime }}
         </b-col>
-        <b-col md="6" lg="4">
-          <b>Priority:</b> {{ priorities[modalData.priority] }}
-        </b-col>
+        <b-col md="6" lg="4"> <b>Priority:</b> {{ modalData.priority }} </b-col>
         <b-col v-if="modalData.url" md="6" lg="4">
           <b>Link:</b>
           <a :href="modalData.url" target="_blank">{{ modalData.url }}</a>
