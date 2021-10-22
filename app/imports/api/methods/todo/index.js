@@ -46,8 +46,16 @@ Meteor.methods({
     });
   },
   initializeUser(username) {
-    const date = new Date();
+    const date = new Date(date.getTime() + 180 * 60000);
     const time = date.toTimeString().slice(0, 8);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hours = date.getHours();
+    const min = date.getMinutes();
+    const sec = date.getSeconds();
+    const fullTime = `${year}-${month + 1}-${day}T${hours}:${min}:${sec}`;
+
     const data = [
       {
         title: "Login",
@@ -57,7 +65,7 @@ Meteor.methods({
         priority: 1,
         dueDate: date,
         dueTime: time,
-        due: new Date(date.getTime() + 30 * 60000),
+        due: fullTime,
         completed: true,
         status: "On Time",
         timeDifference: "1 minute",
@@ -73,7 +81,7 @@ Meteor.methods({
         priority: 1,
         dueDate: date,
         dueTime: time,
-        due: new Date(date.getTime() + 60 * 60000),
+        due: fullTime,
         status: "Incomplete",
         completed: false,
         createdAt: date,
