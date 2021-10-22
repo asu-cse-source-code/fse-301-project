@@ -17,14 +17,21 @@
           <span>{{ response }}</span>
         </b-col>
       </b-row>
-      <b-row align-h="center">
+      <b-row align-h="center" class="mt-5">
         <b-col cols="4">
-          <b-button variant="primary" @click="anotherTask()">
+          <b-button variant="outline-primary" @click="anotherTask()">
             Another Task
           </b-button>
         </b-col>
         <b-col cols="4">
-          <b-button variant="info" @click="goToTask()"> View Task </b-button>
+          <b-button variant="outline-primary" @click="goToList()">
+            All Tasks
+          </b-button>
+        </b-col>
+        <b-col cols="4">
+          <b-button variant="outline-primary" @click="goToTask()">
+            View Task
+          </b-button>
         </b-col>
       </b-row>
     </div>
@@ -376,6 +383,9 @@ export default {
     },
     goToTask() {
       this.$router.push({ name: "Task", params: { taskId: this.newTask } });
+    },
+    goToList() {
+      this.$router.push({ name: "List" });
     },
   },
 };
