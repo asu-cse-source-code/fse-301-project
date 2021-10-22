@@ -8,7 +8,7 @@
       </b-row>
       <b-row class="mt-2 mb-4">
         <b-col>
-          <h4>{{ modalData.description }}</h4>
+          <h4><b>Description:</b> {{ modalData.description }}</h4>
         </b-col>
       </b-row>
       <b-row class="mb-3">
