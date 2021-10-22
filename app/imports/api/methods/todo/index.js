@@ -24,10 +24,57 @@ const timeDif = require("../../helper/timeRemaining.js");
 Meteor.methods({
   createTodo(form) {
     check(form.title, String);
-    check(form.priority, Number);
 
     if (!this.userId) {
       throw new Meteor.Error("Please login before adding a task!");
+    }
+
+    const allTasks = Todo.find(
+      {
+        owner: this.userId,
+        completed: false,
+      },
+      {
+        sort: { priority: 1 },
+      }
+    ).fetch();
+
+    const thisDate = new Date(form.dueDate + "T" + form.dueTime);
+
+    let prioritySet = false;
+    let prevPriority = 0;
+
+    for (let task in allTasks) {
+      const obj = allTasks[task];
+      if (obj === null)
+        throw new Meteor.Error(
+          "Error occurred setting the priority of your new task"
+        );
+      const objDate = new Date(obj.due);
+      if (prioritySet) {
+        const newPri = obj.priority + 1;
+        Todo.update(obj._id, {
+          $set: {
+            priority: newPri,
+          },
+        });
+      } else if (thisDate < objDate) {
+        prioritySet = true;
+        form.priority = prevPriority + 1;
+        const newPri = obj.priority + 1;
+        Todo.update(obj._id, {
+          $set: {
+            priority: newPri,
+          },
+        });
+      } else {
+        prevPriority = obj.priority;
+      }
+    }
+
+    if (!prioritySet) {
+      console.log("Priority not set");
+      form.priority = prevPriority + 1;
     }
 
     return Todo.insert({
@@ -103,6 +150,7 @@ Meteor.methods({
     let status = "Incomplete";
     let timeDifference = null;
     let points = 0;
+    let priority = 0;
 
     const timeCompleted = new Date();
 
@@ -110,6 +158,23 @@ Meteor.methods({
       let dif = timeDif.difference(timeCompleted, todo.due);
       status = dif[0].status;
       timeDifference = dif[0].difference;
+
+      // Need to update prioritites
+      const allTasks = Todo.find({
+        owner: this.userId,
+        priority: { $gt: todo.priority },
+      }).fetch();
+
+      for (var task in allTasks) {
+        const obj = allTasks[task];
+
+        const newPri = obj.priority - 1;
+        Todo.update(obj._id, {
+          $set: {
+            priority: newPri,
+          },
+        });
+      }
 
       // Need to add points to rewards
       points = 20;
@@ -128,12 +193,60 @@ Meteor.methods({
       });
     } else {
       // Need to remove the points from rewards
-
       Meteor.call("removePoints", todo, (error) => {
         if (error) {
           console.log("Error removing points: ", error.error);
         }
       });
+
+      // Need to get the priority for the task
+      const allTasks = Todo.find(
+        {
+          owner: this.userId,
+          completed: false,
+        },
+        {
+          sort: { priority: 1 },
+        }
+      ).fetch();
+
+      const thisDate = new Date(todo.due);
+
+      let prioritySet = false;
+      let prevPriority = 0;
+
+      for (let task in allTasks) {
+        const obj = allTasks[task];
+        if (obj === null)
+          throw new Meteor.Error(
+            "Error occurred setting the priority of your new task"
+          );
+        const objDate = new Date(obj.due);
+        if (prioritySet) {
+          const newPri = obj.priority + 1;
+          Todo.update(obj._id, {
+            $set: {
+              priority: newPri,
+            },
+          });
+        } else if (thisDate < objDate) {
+          prioritySet = true;
+          priority = prevPriority + 1;
+          const newPri = obj.priority + 1;
+          Todo.update(obj._id, {
+            $set: {
+              priority: newPri,
+            },
+          });
+        } else {
+          prevPriority = obj.priority;
+        }
+      }
+
+      if (!prioritySet) {
+        console.log("Priority not set");
+        priority = prevPriority + 1;
+      }
     }
 
     Todo.update(todoId, {
@@ -143,6 +256,7 @@ Meteor.methods({
         status: status,
         timeDifference: timeDifference,
         points: points,
+        priority: priority,
       },
     });
 
@@ -203,6 +317,10 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
 
+    if (todo.completed) {
+      throw new Meteor.Error("Can't update priority on a completed task!");
+    }
+
     let allTasks = null;
     let incr = 0;
     // Since new priority is > the tasks with lower priority than old aren't changed
@@ -220,12 +338,12 @@ Meteor.methods({
       incr = 1;
     }
 
-    console.log(allTasks);
-
     for (var task in allTasks) {
       var obj = allTasks[task];
-      console.log(task);
-      if (obj === null) throw new Meteor.Error("obj is null");
+      if (obj === null)
+        throw new Meteor.Error(
+          "Error occurred while changing the priority of your task"
+        );
       if (
         (obj.priority <= newPriority && incr === -1) ||
         (obj.priority < oldPriority && incr === 1)
