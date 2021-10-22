@@ -272,7 +272,7 @@ export default {
             self.resetForm();
             self.visible = false;
             self.response = "Successfully created your task!";
-            console.log(res);
+            // console.log(res);
             self.newTask = res;
           }
         });
@@ -317,7 +317,7 @@ export default {
       return false;
     },
     switchAm() {
-      console.log(this.form.dueTime);
+      // console.log(this.form.dueTime);
 
       let prevTime = parseInt(this.form.dueTime.slice(0, 2));
       let currMin = this.form.dueTime.slice(3, 5);
@@ -337,7 +337,7 @@ export default {
         ? `${prevTime - 12}:${currMin} AM`
         : `${prevTime}:${currMin} PM`;
 
-      console.log(newTime);
+      // console.log(newTime);
       this.form.dueTime = newTime;
     },
     formatTime() {
@@ -351,7 +351,7 @@ export default {
         alert("Invalid time given");
         newTime = this.form.dueTime.slice(0, 8).replace(/[^0-9]/g, "");
       }
-      console.log(newTime);
+      // console.log(newTime);
       let hours,
         minutes = 0;
       let addZero = false;

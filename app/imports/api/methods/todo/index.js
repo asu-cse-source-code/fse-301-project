@@ -73,7 +73,7 @@ Meteor.methods({
     }
 
     if (!prioritySet) {
-      console.log("Priority not set");
+      // console.log("Priority not set");
       form.priority = prevPriority + 1;
     }
 
@@ -244,7 +244,7 @@ Meteor.methods({
       }
 
       if (!prioritySet) {
-        console.log("Priority not set");
+        // console.log("Priority not set");
         priority = prevPriority + 1;
       }
     }
