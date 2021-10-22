@@ -64,26 +64,6 @@
         style="height: 600px"
       >
         >
-        <!-- <template v-slot:cell-content="{ cell, view, events, goNarrower }">
-          <span
-            class="vuecal__cell-date"
-            :class="view.id"
-            v-if="view.id === 'day'"
-            @click="goNarrower"
-          >
-            {{ cell.date }}
-          </span>
-          <span
-            class="vuecal__cell-events-count"
-            v-if="view.id === 'month' && events.length"
-            >{{ events.length }}Tasks to do 👌</span
-          >
-          <span
-            class="vuecal__no-event"
-            v-if="['week', 'day'].includes(view.id) && !events.length"
-            >Nothing here 👌</span
-          >
-        </template> -->
       </vue-cal>
     </div>
     <div v-if="showDialog">
@@ -143,7 +123,7 @@ export default {
   components: { VueCal, TaskModal },
   data() {
     return {
-      activeView: "week",
+      activeView: "month",
       selectedDate: null,
       showDialog: false,
       selectedEvent: null,
@@ -165,7 +145,7 @@ export default {
         eventObj.contentFull = eventObj.description;
         todo.push(eventObj);
       }
-      console.log(todo);
+
       this.todoEvents = todo;
     },
     onEventClick(event, e) {
@@ -183,6 +163,11 @@ export default {
   created() {
     const self = this;
     self.formatEvents(self.events);
+  },
+  watch: {
+    events: function (newVal, oldVal) {
+      self.formatEvents(newVal);
+    },
   },
 };
 </script>
