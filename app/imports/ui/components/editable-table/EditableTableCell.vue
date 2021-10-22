@@ -198,14 +198,23 @@ export default {
       return options;
     },
     saveChanges(data) {
-      const task = this.items[data.index];
-      Meteor.call("updateTodo", task, (error, _res) => {
-        if (error) {
-          alert(error.error);
-        } else {
-          alert("Successfully updated your task!");
+      const taskId = this.items[data.index]._id;
+      const oldPriority = this.items[data.index].og;
+      const newPriority = this.items[data.index].priority;
+
+      Meteor.call(
+        "updatePriority",
+        newPriority,
+        oldPriority,
+        taskId,
+        (error, _res) => {
+          if (error) {
+            alert(error.error);
+          } else {
+            alert("Successfully updated your task!");
+          }
         }
-      });
+      );
     },
     markComplete(data) {
       Meteor.call("completeTodo", data._id, !data.completed, (error, res) => {

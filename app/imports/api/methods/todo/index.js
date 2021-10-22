@@ -197,4 +197,53 @@ Meteor.methods({
 
     return data;
   },
+  updatePriority(newPriority, oldPriority, taskId) {
+    const todo = Todo.findOne(taskId);
+
+    if (todo.owner !== this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    let allTasks = null;
+    let incr = 0;
+    // Since new priority is > the tasks with lower priority than old aren't changed
+    if (newPriority > oldPriority) {
+      allTasks = Todo.find({
+        owner: this.userId,
+        priority: { $gt: oldPriority },
+      }).fetch();
+      incr = -1;
+    } else {
+      allTasks = Todo.find({
+        owner: this.userId,
+        priority: { $gte: newPriority },
+      }).fetch();
+      incr = 1;
+    }
+
+    console.log(allTasks);
+
+    for (var task in allTasks) {
+      var obj = allTasks[task];
+      console.log(task);
+      if (obj === null) throw new Meteor.Error("obj is null");
+      if (
+        (obj.priority <= newPriority && incr === -1) ||
+        (obj.priority < oldPriority && incr === 1)
+      ) {
+        const newPri = obj.priority + incr;
+        Todo.update(obj._id, {
+          $set: {
+            priority: newPri,
+          },
+        });
+      }
+    }
+
+    return Todo.update(taskId, {
+      $set: {
+        priority: newPriority,
+      },
+    });
+  },
 });
