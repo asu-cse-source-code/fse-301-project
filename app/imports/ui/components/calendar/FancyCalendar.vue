@@ -2,27 +2,42 @@
   <div class="mt-5">
     <b-row align-h="center" class="mb-2">
       <b-col cols="2">
-        <b-button block variant="outline-info" @click="activeView = 'day'"
+        <b-button
+          block
+          :variant="activeView === 'day' ? 'info' : 'outline-info'"
+          @click="activeView = 'day'"
           >Day</b-button
         >
       </b-col>
       <b-col cols="2">
-        <b-button block variant="outline-info" @click="activeView = 'week'"
+        <b-button
+          block
+          :variant="activeView === 'week' ? 'info' : 'outline-info'"
+          @click="activeView = 'week'"
           >Week</b-button
         >
       </b-col>
       <b-col cols="2">
-        <b-button block variant="outline-info" @click="activeView = 'month'"
+        <b-button
+          block
+          :variant="activeView === 'month' ? 'info' : 'outline-info'"
+          @click="activeView = 'month'"
           >Month</b-button
         >
       </b-col>
       <b-col cols="2">
-        <b-button block variant="outline-info" @click="activeView = 'year'"
+        <b-button
+          block
+          :variant="activeView === 'year' ? 'info' : 'outline-info'"
+          @click="activeView = 'year'"
           >Year</b-button
         >
       </b-col>
       <b-col cols="2">
-        <b-button block variant="outline-info" @click="activeView = 'years'"
+        <b-button
+          block
+          :variant="activeView === 'years' ? 'info' : 'outline-info'"
+          @click="activeView = 'years'"
           >Years</b-button
         >
       </b-col>
