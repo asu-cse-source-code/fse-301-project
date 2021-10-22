@@ -46,15 +46,14 @@ Meteor.methods({
     });
   },
   initializeUser(username) {
-    const date = new Date(date.getTime() + 180 * 60000);
+    const now = new Date();
+    const date = new Date(now.getTime() + 180 * 60000);
     const time = date.toTimeString().slice(0, 8);
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
-    const hours = date.getHours();
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
-    const fullTime = `${year}-${month + 1}-${day}T${hours}:${min}:${sec}`;
+    const dueDate = `${year}-${month + 1}-${day}`;
+    const fullTime = `${year}-${month + 1}-${day}T${time}`;
 
     const data = [
       {
@@ -63,7 +62,7 @@ Meteor.methods({
           "Login or create an account to start keeping track of your tasks!",
         url: "/login",
         priority: 1,
-        dueDate: date,
+        dueDate: dueDate,
         dueTime: time,
         due: fullTime,
         completed: true,
@@ -79,7 +78,7 @@ Meteor.methods({
         description: "Read the documentation we have!",
         url: "https://docs.nolimit.austinbspencer.com/#/",
         priority: 1,
-        dueDate: date,
+        dueDate: dueDate,
         dueTime: time,
         due: fullTime,
         status: "Incomplete",
