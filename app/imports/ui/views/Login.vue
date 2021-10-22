@@ -342,6 +342,7 @@ export default {
   methods: {
     resetErr() {
       this.form.errorMessage = "";
+      this.propVal = "create";
     },
     loginBtn() {
       this.propVal = "login";
