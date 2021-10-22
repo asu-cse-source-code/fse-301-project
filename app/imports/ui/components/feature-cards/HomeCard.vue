@@ -61,9 +61,9 @@ export default {
         if (error) {
           alert(error.error);
         } else {
-          console.log(res);
           if (res > 0) {
-            self.showToast(res);
+            // self.showToast(res);
+            alert(`Nice Job! You just received ${res} points!`);
           }
         }
       });
