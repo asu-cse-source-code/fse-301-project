@@ -23,38 +23,41 @@
           >{{ data.value }}</b-button
         >
       </template>
-      <!-- <template #cell(title)="data">
-        <b-form-input
-          v-if="items[data.index].isEdit && selectedCell === 'title'"
-          type="text"
-          v-model="items[data.index].title"
-        ></b-form-input>
-        <span v-else @click="editCellHandler(data, 'title')">{{
-          data.value
-        }}</span>
-      </template> -->
-      <!-- <template #cell(description)="data">
-        <b-form-input
-          v-if="items[data.index].isEdit && selectedCell === 'description'"
-          type="text"
-          v-model="items[data.index].description"
-        ></b-form-input>
-        <span v-else @click="editCellHandler(data, 'description')">{{
-          data.value
-        }}</span>
-      </template> -->
-      <!-- <template #cell(dueDate)="data">
-        <b-form-datepicker
-          v-if="items[data.index].isEdit && selectedCell === 'dueDate'"
-          v-model="items[data.index].dueDate"
-        ></b-form-datepicker>
-        <span v-else @click="editCellHandler(data, 'dueDate')">{{
-          data.value
-        }}</span>
-      </template> -->
+      <template v-slot:cell(dueDate)="row">
+        <div v-if="!row.item.completed">
+          <div
+            v-for="time in getRemaining(new Date(), row.item.due)"
+            :key="time.difference"
+          >
+            <div>
+              <span
+                v-if="time.status === 'Late'"
+                style="font-weight: bold; color: red"
+                >OVER DUE:
+              </span>
+              {{ time.difference }}
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div>
+            <span
+              v-if="row.item.status === 'Late'"
+              style="font-weight: bold; color: red"
+              >{{ row.item.status }}
+            </span>
+            <span v-else style="font-weight: bold; color: green">
+              {{ row.item.status }}
+            </span>
+            <!-- {{ row.item.timeDifference }} -->
+          </div>
+        </div>
+      </template>
       <template #cell(_id)="data">
         <div v-if="isEdited(data)">
-          <b-button @click="saveChanges(data)">Save Changes</b-button>
+          <b-button variant="outline-success" @click="saveChanges(data)"
+            >Save</b-button
+          >
         </div>
       </template>
       <template v-slot:cell(completed)="row">
@@ -122,8 +125,7 @@
         </template>
       </b-modal>
     </div>
-    <div>{{ new Date().toTimeString().slice(0, 8) }}</div>
-    <pre>{{ items }}</pre>
+    <!-- <pre>{{ items }}</pre> -->
   </div>
 </template>
 
@@ -197,7 +199,6 @@ export default {
     },
     saveChanges(data) {
       const task = this.items[data.index];
-      const self = this;
       Meteor.call("updateTodo", task, (error, _res) => {
         if (error) {
           alert(error.error);
@@ -218,6 +219,7 @@ export default {
       });
     },
     removeTask(data) {
+      console.log("Removing item");
       Meteor.call("removeTodo", data._id, (error, res) => {
         if (error) {
           alert(error.error);
@@ -231,6 +233,12 @@ export default {
     myRowClickHandler2(record, _index) {
       this.modalData = record;
       this.showModal = true;
+    },
+    getRemaining(date1, dueDate) {
+      // console.log(`date1: ${date1} vs due: ${dueDate}`);
+      const timedif = timeDif.difference(date1, dueDate);
+      // console.log(timedif);
+      return timedif;
     },
   },
   created() {

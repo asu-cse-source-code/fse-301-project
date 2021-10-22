@@ -69,10 +69,10 @@
           </b-row>
 
           <div v-if="showCompleted && todos.length > 0">
-            <full-table :items="todos" />
+            <editable-table-cell :todos="todos" />
           </div>
           <div v-else-if="todosIncomplete.length > 0">
-            <full-table :items="todosIncomplete" />
+            <editable-table-cell :todos="todosIncomplete" />
           </div>
         </b-card>
       </div>
@@ -87,14 +87,14 @@
 
 <script>
 import Todos from "../../api/collections/Todo";
-import FullTable from "../components/tables/FullTable.vue";
 import AddItem from "../components/AddItem.vue";
+import EditableTableCell from "../components/editable-table/EditableTableCell.vue";
 
 export default {
   name: "List",
   components: {
-    FullTable,
     AddItem,
+    EditableTableCell,
   },
 
   data() {
@@ -114,7 +114,7 @@ export default {
       return Todos.find(
         {},
         {
-          sort: { due: 1 },
+          sort: { priority: 1 },
         }
       );
     },
@@ -122,7 +122,7 @@ export default {
       return Todos.find(
         { completed: false },
         {
-          sort: { due: 1 },
+          sort: { priority: 1 },
         }
       );
     },
