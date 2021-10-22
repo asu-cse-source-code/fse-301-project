@@ -249,6 +249,9 @@ export default {
       // console.log(timedif);
       return timedif;
     },
+    goToEdit(record) {
+      this.$router.push({ name: "Task", params: { taskId: record._id } });
+    },
   },
   created() {
     const self = this;
