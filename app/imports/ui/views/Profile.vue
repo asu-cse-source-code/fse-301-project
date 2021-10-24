@@ -18,9 +18,13 @@
             <li><strong>Total Points:</strong> {{ rewardsObj.points }}</li>
           </ul>
           <ul>
-            <li>
+            <li v-if="rewardsObj.streak >= 0">
               <strong>Current Streak of Tasks Completed on Time:</strong>
               {{ rewardsObj.streak }}
+            </li>
+            <li v-else>
+              <strong>Current Streak of Tasks Completed on Time:</strong>
+              0
             </li>
           </ul>
           <ul>
