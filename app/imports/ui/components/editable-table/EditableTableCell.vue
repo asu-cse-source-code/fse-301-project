@@ -14,8 +14,14 @@
         <b-form-select
           v-if="items[data.index].isEdit && selectedCell === 'priority'"
           v-model="items[data.index].priority"
-          :options="getPriorityOptions(data.index)"
+          :options="getPriorityOptions()"
         ></b-form-select>
+        <b-button
+          variant="outline-secondary"
+          v-else-if="items[data.index].completed"
+          disabled
+          >0</b-button
+        >
         <b-button
           variant="outline-secondary"
           v-else
@@ -177,8 +183,12 @@ export default {
     },
     getPriorityOptions() {
       let options = [];
-      for (var i = 1; i <= this.todos.length; i++) {
-        options.push({ value: i, text: i });
+      let j = 1;
+      for (var i = 0; i < this.todos.length; i++) {
+        if (!this.items[i].completed) {
+          options.push({ value: j, text: j });
+          j++;
+        }
       }
       return options;
     },
