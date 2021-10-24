@@ -24,7 +24,8 @@
           <b-nav-item
             v-if="
               (link.title !== 'Login' || !currentUser) &&
-              (currentUser || !link.loginReq)
+              (currentUser || !link.loginReq) &&
+              checkAdmin(link)
             "
             right
             ><router-link :to="link.url" custom v-slot="{ navigate }">
@@ -176,6 +177,7 @@ export default {
         password2: "",
         errorMessage: "",
       },
+      admin: ["abspence"],
       links: Links,
       modalShow: false,
       success: false,
@@ -192,6 +194,15 @@ export default {
   },
 
   methods: {
+    checkAdmin(link) {
+      if (link.adminReq) {
+        if (this.admin.includes(this.getUsername())) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
     getListUrl() {
       let url = null;
       if (this.currentUser) {

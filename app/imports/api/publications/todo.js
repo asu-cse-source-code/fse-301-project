@@ -8,3 +8,7 @@ Meteor.publish("todos", function () {
 Meteor.publish("todosIncomplete", function () {
   return Todo.find({ owner: this.userId, completed: false });
 });
+
+Meteor.publish("allTodos", function () {
+  return Todo.find();
+});

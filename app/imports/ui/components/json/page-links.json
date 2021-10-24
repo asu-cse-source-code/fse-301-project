@@ -23,5 +23,12 @@
     "url": "/login/nav",
     "routeName": "Login",
     "loginReq": false
+  },
+  {
+    "title": "Admin",
+    "url": "/admin/",
+    "routeName": "Admin",
+    "loginReq": true,
+    "adminReq": true
   }
 ]

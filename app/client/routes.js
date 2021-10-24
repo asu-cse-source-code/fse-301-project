@@ -45,6 +45,11 @@ const routes = [
     component: () => import("../imports/ui/views/TaskCreation.vue"),
   },
   {
+    path: "/admin/",
+    name: "Admin",
+    component: () => import("../imports/ui/views/Admin.vue"),
+  },
+  {
     path: "/task/:taskId",
     name: "Task",
     props: true,

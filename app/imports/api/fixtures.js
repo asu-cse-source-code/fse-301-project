@@ -3,7 +3,19 @@ import Todo from "./collections/Todo.js";
 
 Meteor.startup(() => {
   // if the Todo collection is empty
-  if (Todo.find().count() === 0) {
+  if (Meteor.users.find().count() === 0) {
+    const ownerId = Accounts.createUser({
+      username: "abspence",
+      email: "abspencer2097@gmail.com",
+      password: "Password1",
+      profile: {
+        first_name: "Austin",
+        last_name: "Spencer",
+        company: "No-Limit Planner",
+      },
+    });
+    console.log(ownerId);
+
     const data = [
       {
         title: "Login",

@@ -8,3 +8,7 @@ Meteor.publish("rewards", function () {
 Meteor.publish("topRewards", function () {
   return Rewards.find({ points: { $ne: 0 } });
 });
+
+Meteor.publish("allRewards", function () {
+  return Rewards.find();
+});
