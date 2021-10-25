@@ -13,4 +13,5 @@
 const now = new Date();
 const date = new Date(now.getTime() + 180 * 60000);
 
+console.log(now.toDateString().slice(4, 16));
 console.log(now < date);
