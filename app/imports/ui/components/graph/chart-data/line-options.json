@@ -1,0 +1,37 @@
+{
+  "chart": {
+    "toolbar": {
+      "show": false
+    },
+    "height": 350,
+    "type": "line",
+    "zoom": {
+      "enabled": false
+    }
+  },
+  "dataLabels": {
+    "enabled": false
+  },
+  "stroke": {
+    "curve": "smooth"
+  },
+  "title": {
+    "text": "",
+    "align": "left"
+  },
+  "grid": {
+    "row": {
+      "opacity": 0.5
+    }
+  },
+  "xaxis": {
+    "categories": null,
+    "labels": {
+      "show": true
+    }
+  },
+  "yaxis": {
+    "decimalsInFloat": 2
+  },
+  "colors": []
+}

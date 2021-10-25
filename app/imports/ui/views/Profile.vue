@@ -83,12 +83,22 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="mt-3 mb-3" v-if="dataCount > 3">
-      <h4 class="mt-4 mb-4 center">Rewards Chart</h4>
-      <rewards-graph
-        :series="series"
-        :chartOptions="chartOptions"
-      ></rewards-graph>
+    <b-container class="mt-3 mb-3">
+      <h4 v-if="dataCount > 0" class="mt-4 mb-4 center">
+        Your Rewards Progress
+      </h4>
+      <div v-if="dataCount > 3">
+        <rewards-graph
+          :series="series"
+          :chartOptions="chartOptions"
+        ></rewards-graph>
+      </div>
+      <div class="mt-5" v-if="dataCount > 0">
+        <rewards-bar
+          :series="seriesBar"
+          :chartOptions="chartOptionsBar"
+        ></rewards-bar>
+      </div>
     </b-container>
     <div v-if="topRewards !== undefined">
       <top-users :rewardData="topRewards" />
@@ -101,18 +111,23 @@ import { Meteor } from "meteor/meteor";
 import Rewards from "../../api/collections/Rewards";
 import TopUsers from "../components/TopUsers.vue";
 import RewardsGraph from "../components/graph/RewardsGraph.vue";
+import RewardsBar from "../components/graph/RewardsBar.vue";
+import lineOptions from "../components/graph/chart-data/line-options.json";
+import barOptions from "../components/graph/chart-data/bar-options.json";
 
 export default {
   name: "Fse301PlannerProfile",
   props: ["id"],
-  components: { TopUsers, RewardsGraph },
+  components: { TopUsers, RewardsGraph, RewardsBar },
 
   data() {
     return {
       rewardsObj: null,
-      chartOptions: null,
+      chartOptions: lineOptions,
       series: null,
-      dataCount: null,
+      chartOptionsBar: barOptions,
+      seriesBar: null,
+      dataCount: 0,
       graphColor: "#28A745",
     };
   },
@@ -148,12 +163,16 @@ export default {
       let total = 0;
 
       let data = [];
+      let barData = [];
       let dates = [];
+      let barDates = [];
 
       for (const date in object) {
         total = object[date] + total;
         data.push(total);
+        barData.push(object[date]);
         const dateObj = new Date(date);
+        barDates.push(dateObj.toDateString().slice(4, 16));
         const year = dateObj.getFullYear().toString().slice(2, 4);
         const month = dateObj.getMonth();
         const day = dateObj.getDate();
@@ -164,49 +183,23 @@ export default {
 
       this.series = [
         {
-          name: "Total Profit",
+          name: "Total Points",
           data: data,
         },
       ];
 
-      this.chartOptions = {
-        chart: {
-          toolbar: {
-            show: false,
-          },
-          height: 350,
-          type: "line",
-          zoom: {
-            enabled: false,
-          },
+      this.seriesBar = [
+        {
+          name: "Points",
+          data: barData,
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: "smooth",
-        },
-        title: {
-          text: "",
-          align: "left",
-        },
-        grid: {
-          row: {
-            // colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-            opacity: 0.5,
-          },
-        },
-        xaxis: {
-          categories: dates,
-          labels: {
-            show: false,
-          },
-        },
-        yaxis: {
-          decimalsInFloat: 2,
-        },
-        colors: [this.graphColor],
-      };
+      ];
+
+      this.chartOptions.xaxis.categories = dates;
+      this.chartOptions.colors.push(this.graphColor);
+
+      this.chartOptionsBar.xaxis.categories = barDates;
+
       this.dataCount = count;
     },
   },
