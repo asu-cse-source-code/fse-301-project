@@ -1,58 +1,48 @@
 <template>
   <div>
     <b-row align-h="center">
-      <b-card-group deck>
-        <about-card
-          class="d-none d-xl-block"
-          v-for="(member, i) in teamMembers"
-          :key="member.name"
-          :member="member"
-          :cardNo="i"
-          :limit="100"
-        />
-      </b-card-group>
-      <b-card-group deck>
-        <about-card
-          class="d-none d-md-block d-xl-none"
-          v-for="(member, i) in teamMembers"
-          :key="member.name"
-          :member="member"
-          :cardNo="i"
-          :limit="1"
-        />
-      </b-card-group>
-      <b-card-group deck>
-        <about-card
-          class="d-none d-md-block d-xl-none"
-          v-for="(member, i) in teamMembers.slice(2, 4)"
-          :key="member.name"
-          :member="member"
-          :cardNo="i"
-          :limit="1"
-        />
-      </b-card-group>
-      <b-col sm="12">
-        <about-card
-          class="d-block d-md-none"
-          v-for="(member, i) in teamMembers"
-          :key="member.name"
-          :member="member"
-          :cardNo="i"
-          :limit="100"
-        />
+      <div class="d-none d-xl-block">
+        <b-card-group class="mb-4" deck>
+          <austin-card />
+          <david-card />
+          <samantha-card />
+          <sydney-card />
+        </b-card-group>
+      </div>
+      <div class="d-none d-md-block d-xl-none">
+        <b-card-group class="mb-4" deck>
+          <austin-card />
+          <david-card />
+        </b-card-group>
+        <b-card-group class="mb-4" deck>
+          <samantha-card />
+          <sydney-card />
+        </b-card-group>
+      </div>
+      <b-col sm="12" class="d-block d-md-none">
+        <austin-card class="mb-4" />
+        <david-card class="mb-4" />
+        <samantha-card class="mb-4" />
+        <sydney-card class="mb-4" />
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-import AboutCard from "./AboutCard.vue";
+import AustinCard from "./AustinCard.vue";
+import DavidCard from "./DavidCard.vue";
+import SydneyCard from "./SydneyCard.vue";
+import SamanthaCard from "./SamanthaCard.vue";
 
 export default {
   name: "ResponsiveCards",
   props: ["teamMembers"],
   components: {
-    AboutCard,
+    AustinCard,
+    DavidCard,
+    SydneyCard,
+    SamanthaCard,
   },
 
   data() {
