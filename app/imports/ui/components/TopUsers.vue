@@ -1,6 +1,6 @@
 <template>
   <b-container class="mt-5">
-    <h3 class="mt-3 mb-3 center"><b>Top Users</b></h3>
+    <h1 class="mt-3 mb-3 center"><b>Top Users</b></h1>
     <div v-for="(user, idx) in rewardData" :key="idx">
       <div v-if="idx < 3">
         <b-row class="left mb-2">
