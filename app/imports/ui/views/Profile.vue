@@ -83,9 +83,12 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="mt-3 mb-3" v-if="labels.yLabels > 3">
+    <b-container class="mt-3 mb-3" v-if="dataCount > 3">
       <h4 class="mt-4 mb-4 center">Rewards Chart</h4>
-      <rewards-graph :labels="labels" :datasets="datasets"></rewards-graph>
+      <rewards-graph
+        :series="series"
+        :chartOptions="chartOptions"
+      ></rewards-graph>
     </b-container>
     <div v-if="topRewards !== undefined">
       <top-users :rewardData="topRewards" />
@@ -108,17 +111,9 @@ export default {
     return {
       rewardsObj: null,
       chartOptions: null,
-      datasets: [
-        {
-          data: [],
-          smooth: true,
-          fill: true,
-        },
-      ],
-      labels: {
-        xLabels: [],
-        yLabels: 1,
-      },
+      series: null,
+      dataCount: null,
+      graphColor: "#28A745",
     };
   },
 
@@ -152,19 +147,67 @@ export default {
       let count = 0;
       let total = 0;
 
+      let data = [];
+      let dates = [];
+
       for (const date in object) {
         total = object[date] + total;
-        this.datasets[0].data.push(total);
+        data.push(total);
         const dateObj = new Date(date);
         const year = dateObj.getFullYear().toString().slice(2, 4);
         const month = dateObj.getMonth();
         const day = dateObj.getDate();
         const formatDate = `${month + 1}-${day}-${year}`;
-        this.labels.xLabels.push(formatDate);
+        dates.push(formatDate);
         count++;
       }
 
-      this.labels.yLabels = count;
+      this.series = [
+        {
+          name: "Total Profit",
+          data: data,
+        },
+      ];
+
+      this.chartOptions = {
+        chart: {
+          toolbar: {
+            show: false,
+          },
+          height: 350,
+          type: "line",
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        title: {
+          text: "",
+          align: "left",
+        },
+        grid: {
+          row: {
+            // colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5,
+          },
+        },
+        xaxis: {
+          categories: dates,
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: {
+          decimalsInFloat: 2,
+        },
+        colors: [this.graphColor],
+      };
+      this.dataCount = count;
     },
   },
   created() {

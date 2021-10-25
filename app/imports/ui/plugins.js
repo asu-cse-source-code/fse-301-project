@@ -3,9 +3,9 @@ import VueMeteorTracker from "vue-meteor-tracker";
 
 Vue.use(VueMeteorTracker);
 
-import TrendChart from "vue-trend-chart";
+import VueApexCharts from "vue-apexcharts";
 
-Vue.use(TrendChart);
+Vue.component("apexchart", VueApexCharts);
 
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 

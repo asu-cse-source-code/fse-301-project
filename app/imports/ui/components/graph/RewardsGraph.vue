@@ -1,22 +1,18 @@
 <template>
   <div id="chart">
-    <TrendChart
-      :datasets="datasets"
-      :grid="{
-        verticalLines: true,
-        horizontalLines: true,
-      }"
-      :labels="labels"
-      :min="0"
-    >
-    </TrendChart>
+    <apexchart
+      type="line"
+      height="350"
+      :options="chartOptions"
+      :series="series"
+    ></apexchart>
   </div>
 </template>
 
 <script>
 export default {
   components: {},
-  props: ["labels", "datasets"],
+  props: ["series", "chartOptions"],
   data() {
     return {};
   },
