@@ -1,0 +1,43 @@
+{
+  "_id": "LWLCcSDYa6jNWLCeZ",
+  "points": 1395,
+  "pointsObj": {
+    "Fri Sep 17 2021": 325,
+    "Mon Sep 20 2021": 75,
+    "Tue Sep 21 2021": 150,
+    "Wed Sep 22 2021": 250,
+    "Mon Sep 27 2021": 60,
+    "Thu Sep 30 2021": 220,
+    "Sun Oct 03 2021": 220,
+    "Fri Oct 22 2021": 75,
+    "Sun Oct 24 2021": 20
+  },
+  "streak": -1,
+  "appStreak": 1,
+  "longestAppStreak": 5,
+  "longestPositiveStreak": 12,
+  "completed": 0,
+  "completedOnTime": 9,
+  "completedEarly": 6,
+  "completedLate": 6,
+  "daysOnApp": [
+    "Fri Sep 17 2021",
+    "Mon Sep 20 2021",
+    "Tue Sep 21 2021",
+    "Wed Sep 22 2021",
+    "Sun Sep 26 2021",
+    "Mon Sep 27 2021",
+    "Tue Sep 28 2021",
+    "Wed Sep 29 2021",
+    "Thu Sep 30 2021",
+    "Sun Oct 03 2021",
+    "Wed Oct 13 2021",
+    "Thu Oct 14 2021",
+    "Thu Oct 21 2021",
+    "Fri Oct 22 2021",
+    "Sun Oct 24 2021"
+  ],
+  "createdAt": "2021-09-17T15:36:45.478Z",
+  "username": "abspence",
+  "owner": ""
+}
