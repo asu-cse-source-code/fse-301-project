@@ -100,16 +100,11 @@
         ></rewards-bar>
       </div>
     </b-container>
-    <div v-if="topRewards !== undefined">
-      <top-users :rewardData="topRewards" />
-    </div>
   </div>
 </template>
 
 <script>
 import { Meteor } from "meteor/meteor";
-import Rewards from "../../api/collections/Rewards";
-import TopUsers from "../components/TopUsers.vue";
 import RewardsGraph from "../components/graph/RewardsGraph.vue";
 import RewardsBar from "../components/graph/RewardsBar.vue";
 import lineOptions from "../components/graph/chart-data/line-options.json";
@@ -118,7 +113,7 @@ import barOptions from "../components/graph/chart-data/bar-options.json";
 export default {
   name: "Fse301PlannerProfile",
   props: ["id"],
-  components: { TopUsers, RewardsGraph, RewardsBar },
+  components: { RewardsGraph, RewardsBar },
 
   data() {
     return {
@@ -152,6 +147,7 @@ export default {
     },
     createProfitChart() {
       const object = this.rewardsObj.pointsObj;
+      const beginningDate = new Date(this.rewardsObj.createdAt);
       // const object = {
       //   "Fri Oct 22 2021": 345,
       //   "Thu Oct 21 2021": 30,
@@ -166,6 +162,14 @@ export default {
       let barData = [];
       let dates = [];
       let barDates = [];
+
+      const year = beginningDate.getFullYear().toString().slice(2, 4);
+      const month = beginningDate.getMonth();
+      const day = beginningDate.getDate();
+      const formatDate = `${month + 1}-${day}-${year}`;
+
+      data.push(0);
+      dates.push(formatDate);
 
       for (const date in object) {
         total = object[date] + total;
@@ -215,19 +219,6 @@ export default {
     });
   },
   meteor: {
-    $subscribe: {
-      // Subscribes to the 'threads' publication with no parameters
-      topRewards: [],
-    },
-    topRewards() {
-      return Rewards.find(
-        {},
-        {
-          sort: { points: -1 },
-        },
-        { limit: 3 }
-      ).fetch();
-    },
     currentUser() {
       return Meteor.user();
     },

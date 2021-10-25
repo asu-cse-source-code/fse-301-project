@@ -82,6 +82,11 @@
         </b-card>
       </div>
     </b-card>
+    <b-container>
+      <div v-if="topRewards !== undefined">
+        <top-users :rewardData="topRewards" />
+      </div>
+    </b-container>
   </div>
 </template>
 
@@ -89,12 +94,15 @@
 import Todos from "../../api/collections/Todo";
 import AddItem from "../components/AddItem.vue";
 import EditableTableCell from "../components/editable-table/EditableTableCell.vue";
+import Rewards from "../../api/collections/Rewards";
+import TopUsers from "../components/TopUsers.vue";
 
 export default {
   name: "List",
   components: {
     AddItem,
     EditableTableCell,
+    TopUsers,
   },
 
   data() {
@@ -109,6 +117,16 @@ export default {
     $subscribe: {
       todos: [],
       todosIncomplete: [],
+      topRewards: [],
+    },
+    topRewards() {
+      return Rewards.find(
+        {},
+        {
+          sort: { points: -1 },
+        },
+        { limit: 3 }
+      ).fetch();
     },
     todos() {
       return Todos.find(
