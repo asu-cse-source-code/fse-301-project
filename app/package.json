@@ -13,6 +13,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
+    "apexcharts": "^3.29.0",
     "babel-eslint": "^10.1.0",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^5.0.0",
@@ -27,10 +28,10 @@
     "prettier": "^2.2.1",
     "validator": "^13.6.0",
     "vue": "^2.6.14",
+    "vue-apexcharts": "^1.6.2",
     "vue-cal": "^3.10.1",
     "vue-meteor-tracker": "^2.0.0-beta.5",
-    "vue-router": "^3.5.2",
-    "vue-trend-chart": "^0.15.3"
+    "vue-router": "^3.5.2"
   },
   "meteor": {
     "mainModule": {
