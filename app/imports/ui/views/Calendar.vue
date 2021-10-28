@@ -3,6 +3,13 @@
     <div v-if="todosIncomplete !== undefined && todosIncomplete.length > 0">
       <fancy-calendar :events="todosIncomplete"></fancy-calendar>
     </div>
+    <div v-else>
+      <h1 class="mt-5">Your calendar is empty! <br /></h1>
+      <h4>
+        <b>Create some tasks to view them here!</b>
+      </h4>
+      <fancy-calendar :events="[]"></fancy-calendar>
+    </div>
   </b-container>
 </template>
 
